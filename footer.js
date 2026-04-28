@@ -74,6 +74,8 @@
           <li><a href="/products/public-relations/media-pitching">Media Pitching</a></li>
           <li><a href="/products/public-relations/media-monitoring">Media Monitoring</a></li>
           <li><a href="/products/public-relations/media-and-industry-targeting">Media and Industry Targeting</a></li>
+          <li><a href="https://www.accessnewswire.com/social-monitoring">Social Monitoring</a></li>
+          <li><a href="https://www.accessnewswire.com/ACCESS-Verified">ACCESS Verified</a></li>
         </ul>
       </div>
       <div class="footer-column">
@@ -92,6 +94,13 @@
         <ul>
           <li><a href="/products/all-access/all-access">All Access</a></li>
           <li><a href="/products/conference-and-event-software/conference-and-event-software">Conference &amp; Event Software</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <p>Pricing</p>
+        <ul>
+          <li><a href="/pricing/public-relations/pr-subscription">PR Subscription</a></li>
+          <li><a href="/submit-a-press-release">Submit a Press Release</a></li>
         </ul>
       </div>
       <div class="footer-column">
@@ -118,6 +127,7 @@
         <ul>
           <li><a href="/download-press-release-template">Press Release Templates</a></li>
           <li><a href="/newsroom">Press Release Examples</a></li>
+          <li><a href="/professional-education-program">🎓 EDU Program</a></li>
         </ul>
       </div>
       <div class="footer-column">
@@ -148,6 +158,7 @@
       <div class="footer-column">
         <p>Contact Us</p>
         <ul>
+          <li><a href="https://app.accessnewswire.com/login" target="_blank">Login</a></li>
           <li><a href="tel:8888082227">+1 888-808-2227</a></li>
           <li><a href="/contact-us">Sales</a></li>
           <li><a href="/contact-us">Customer Support</a></li>
