@@ -116,8 +116,6 @@
             <div class="dropdown-column pr-column">
               <div class="dropdown-heading noDeco">Public Relations</div>
               <p class="description_title"></p>
-              <a href="https://www.accessnewswire.com/social-monitoring"><i class="fas fa-satellite-dish"></i> Social Monitoring</a>
-              <p class="description">Now you can track every mention, every conversation, and every shift in sentiment — all from the platform you're already using.</p>
               <a href="/products/public-relations/access-pr-platform"><i class="fas fa-bullhorn"></i> ACCESS PR Platform</a>
               <p class="description">The first and only All-in-one subscription platform offering all of your PR Distribution and Media Outreach Tools in one single solution. <a href="/pricing/public-relations/pr-subscription" class="description-link">Monthly &amp; Annual Subscriptions.</a></p>
               <a href="/products/public-relations/press-release-distribution"><i class="fas fa-paper-plane"></i> Press Release Distribution</a>
@@ -128,6 +126,8 @@
               <p class="description">Personalize and customize your pitch for maximum engagement.</p>
               <a href="/products/public-relations/media-monitoring"><i class="fas fa-search"></i> Media Monitoring</a>
               <p class="description">Discover your brand, industry, and competitor mentions.</p>
+              <a href="https://www.accessnewswire.com/social-monitoring"><i class="fas fa-satellite-dish"></i> Social Monitoring</a>
+              <p class="description">Now you can track every mention, every conversation, and every shift in sentiment — all from the platform you're already using.</p>
               <a href="https://www.accessnewswire.com/ACCESS-Verified"><i class="fas fa-shield-alt"></i> ACCESS Verified</a>
               <p class="description">Catch issues before our editors do. ACCESS Verified gives you a real-time first pass on your press release so you can submit with confidence — every time.</p>
             </div>
