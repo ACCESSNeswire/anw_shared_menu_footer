@@ -87,6 +87,7 @@
           <li><a href="/products/investor-relations/earnings-calls">Earnings Calls</a></li>
           <li><a href="/products/investor-relations/earnings-press-releases">Earnings Press Releases</a></li>
           <li><a href="/products/investor-relations/investor-days">Investor Days</a></li>
+          <li><a href="/products/investor-relations/whistleblower"><i class="fas fa-shield-alt"></i> Whistleblower</a></li>
         </ul>
       </div>
       <div class="footer-column">
