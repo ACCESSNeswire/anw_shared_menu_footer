@@ -146,6 +146,8 @@
               <p class="description">Easily send your releases out with quick turnarounds and no extra fees.</p>
               <a href="/products/investor-relations/investor-days"><i class="fas fa-calendar-day"></i> Investor Days</a>
               <p class="description">Host your day knowing you've got the most experienced webcast team in the industry.</p>
+              <a href="/products/investor-relations/whistleblower"><i class="fas fa-shield-alt"></i> Whistleblower</a>
+              <p class="description">Provide a secure and confidential reporting channel to protect your organization and employees.</p>
             </div>
             <div class="dropdown-column">
               <div class="dropdown-heading noDeco">All ACCESS</div>
