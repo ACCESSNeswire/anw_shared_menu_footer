@@ -20,6 +20,7 @@
 
   // ---- 2. Inject the menu CSS into <head> ----
   var css = `
+[data-anw-menu-wrapper] { position: sticky; top: 0; z-index: 9999; background-color: #000850; }
 .noDeco { cursor: default; text-decoration: none; }
 .navbar { display: flex; justify-content: space-between; align-items: center; padding: 0px 10px 0px 50px !important; background-color: transparent; font-family: 'Montserrat', sans-serif !important; }
 .logo { width: 120px; height: auto; overflow: hidden; display: flex; justify-content: center; align-items: center; flex-shrink: 0; margin-right: 40px; }
