@@ -150,7 +150,11 @@
   .mega-menu.anw-panel-open .menu-item.anw-open .dropdown { display: block; }
   .mega-menu.anw-panel-open .dropdown-grid { grid-template-columns: 1fr !important; gap: 0 !important; }
   .mega-menu.anw-panel-open .dropdown-column { padding: 0 !important; }
-  .mega-menu.anw-panel-open .dropdown-column a { color: rgba(255, 255, 255, 0.85) !important; padding: 9px 0 9px 14px !important; font-size: 15px; }
+  .mega-menu.anw-panel-open .dropdown-column a { display: flex !important; align-items: flex-start; gap: 12px; color: rgba(255, 255, 255, 0.85) !important; padding: 9px 0 9px 14px !important; font-size: 15px; line-height: 1.45; }
+  /* fixed-width icon column: every label starts at the same x position,
+     and wrapped lines hang-indent instead of sliding under the icon */
+  .mega-menu.anw-panel-open .dropdown-column a i { flex: 0 0 20px; width: 20px; text-align: center; margin: 3px 0 0 0 !important; font-size: 14px !important; color: #fb3c64 !important; }
+  .mega-menu.anw-panel-open .dropdown-column .left-pad { margin-left: 0 !important; font-size: 14px !important; }
   .mega-menu.anw-panel-open .dropdown-column a:hover { color: #fff !important; margin-left: 0 !important; }
   /* section headings (e.g. Service Plans / Platform Add-ons): pink,
      uppercase, underlined in pink — unmistakably a divider */
@@ -163,7 +167,6 @@
      soft white uppercase labels */
   .mega-menu.anw-panel-open .dropdown-column .subCategory-title { margin: 14px 0 2px !important; font-size: 12px !important; text-transform: uppercase; letter-spacing: 0.08em; }
   .mega-menu.anw-panel-open .dropdown-column .blog-color { color: rgba(255, 255, 255, 0.6) !important; }
-  .mega-menu.anw-panel-open .dropdown-column .left-pad { margin-left: 6px !important; }
 
   /* +/- accordion indicator */
   .mega-menu.anw-panel-open .menu-item.has-dropdown > a::after { content: '+'; float: right; color: #fb3c64; font-weight: bold; font-size: 18px; line-height: 1; pointer-events: none; }
