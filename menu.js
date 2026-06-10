@@ -1,6 +1,14 @@
 /**
  * ACCESS Newswire Shared Menu
  * Embed with: <script src="https://cdn.jsdelivr.net/gh/ACCESSNeswire/anw_shared_menu_footer@main/menu.js"></script>
+ *
+ * v2 changes:
+ *  - Dropdown arrow is now anchored to the menu item itself (bottom: -10px)
+ *    instead of a hardcoded top: 50px, so it works on every page regardless
+ *    of navbar height/position.
+ *  - Sticky navbar with a frosted "scrolled" state (background + smaller logo).
+ *  - Full mobile experience (<=1100px): hamburger, fullscreen panel,
+ *    accordion sections, mobile-only Submit/Login/Contact links.
  */
 (function () {
   'use strict';
@@ -21,6 +29,13 @@
   // ---- 2. Inject the menu CSS into <head> ----
   var css = `
 .noDeco { cursor: default; text-decoration: none; }
+
+/* ---- sticky wrapper + scrolled state ---- */
+[data-anw-menu-wrapper] { position: sticky; top: 0; z-index: 9990; transition: background-color 0.3s ease, box-shadow 0.3s ease; }
+[data-anw-menu-wrapper].anw-scrolled { background-color: rgba(0, 8, 80, 0.55); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 2px 14px rgba(0, 0, 0, 0.18); }
+[data-anw-menu-wrapper] .logo img { transition: width 0.3s ease; }
+[data-anw-menu-wrapper].anw-scrolled .logo img { width: 95px; }
+
 .navbar { display: flex; justify-content: space-between; align-items: center; padding: 0px 10px 0px 50px !important; background-color: transparent; font-family: 'Montserrat', sans-serif !important; }
 .logo { width: 120px; height: auto; overflow: hidden; display: flex; justify-content: center; align-items: center; flex-shrink: 0; margin-right: 40px; }
 .logo img { width: 120px; height: auto; max-width: 100%; max-height: 100%; object-fit: contain; }
@@ -55,11 +70,12 @@
 .navbar .mega-menu .dropdown-column .blog-color { color: #b303ce !important; }
 .navbar .mega-menu .dropdown-column .description-link { color: #007bff; text-decoration: underline !important; margin-left: 0px; }
 .navbar .mega-menu .dropdown-column .description-link:hover { text-decoration: underline; margin-left: 0px; }
-.navbar .mega-menu .menu-item.has-dropdown > a:hover::after,
-.navbar .mega-menu .menu-item.has-dropdown.hover > a::after { content: ''; position: absolute; top: 50px; left: 50%; transform: translateX(-50%); border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 10px solid #fff; animation: arrow-up 0.8s ease forwards; opacity: 1; }
-@keyframes arrow-up { from { top: 60px; opacity: 0; } to { top: 50px; opacity: 1; } }
-.navbar .mega-menu .menu-item.has-dropdown > a::after { opacity: 0; top: 60px; }
-.navbar .mega-menu .menu-item.has-dropdown.hover > a::after { opacity: 1; top: 50px; }
+
+/* ---- dropdown arrow: anchored to the item, works on every page ---- */
+.navbar .mega-menu .menu-item.has-dropdown > a::after { content: ''; position: absolute; left: 50%; bottom: -10px; transform: translateX(-50%) translateY(8px); border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 10px solid #fff; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; pointer-events: none; }
+.navbar .mega-menu .menu-item.has-dropdown.hover > a::after,
+.navbar .mega-menu .menu-item.has-dropdown > a:hover::after { opacity: 1; transform: translateX(-50%) translateY(0); }
+
 .navbar .login-btn a { display: inline-flex; align-items: center; background-color: transparent; padding: 20px; color: #fff; font-size: 14px; font-family: 'Montserrat', sans-serif !important; text-decoration: none; font-weight: bold; margin-left: 1px; transition: color 0.3s ease, transform 0.3s ease; }
 .navbar .login-btn a i { margin-left: 5px; font-size: 12px; color: #fff; transition: transform 0.3s ease; }
 .navbar .login-btn a:hover { color: #000850; }
@@ -94,6 +110,58 @@
 .contact-btn a:hover { color: #fff; background-color: transparent; background-image: linear-gradient(45deg, #b303ce, #fb3c64); background-size: 200% 200%; background-position: 100% 0; transition: color 0.3s ease, background-image 0.3s ease, background-size 0.6s ease, background-position 0.6s ease; }
 .contact-btn a:hover i { transform: scale(1.3); }
 .contact-btn a:focus { outline: none; color: #fff; }
+
+/* ---- hamburger (hidden on desktop) ---- */
+.anw-hamburger { display: none; background: none; border: 0; padding: 10px; cursor: pointer; }
+.anw-hamburger span { display: block; width: 24px; height: 2px; background: #fff; margin: 5px 0; transition: transform 0.3s ease, opacity 0.3s ease; }
+.anw-mobile-extra { display: none; }
+
+/* ============================================================
+   MOBILE (<= 1100px): hamburger + fullscreen accordion panel
+============================================================ */
+@media (max-width: 1100px) {
+  .navbar { padding: 8px 14px !important; }
+  .anw-hamburger { display: block; }
+  .navbar .press-btn, .navbar .login-btn { display: none !important; }
+  .contact-btn { display: none !important; }
+
+  /* panel closed by default */
+  .mega-menu { display: none; }
+
+  /* panel open */
+  [data-anw-menu-wrapper].anw-mobile-open .mega-menu { display: block; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #000850; z-index: 10000; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 84px 22px 50px; }
+  [data-anw-menu-wrapper].anw-mobile-open .anw-hamburger { position: fixed; top: 14px; right: 12px; z-index: 10001; }
+  [data-anw-menu-wrapper].anw-mobile-open .anw-hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  [data-anw-menu-wrapper].anw-mobile-open .anw-hamburger span:nth-child(2) { opacity: 0; }
+  [data-anw-menu-wrapper].anw-mobile-open .anw-hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* stacked list */
+  .menu { flex-direction: column; gap: 0; }
+  .menu > .menu-item > a { font-size: 17px; padding: 14px 4px; border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
+  .menu > .menu-item > a:hover { background-color: transparent; }
+
+  /* mobile-only action links */
+  .anw-mobile-extra { display: block; }
+  .anw-mobile-extra > a { color: #fb3c64 !important; font-weight: bold; }
+
+  /* dropdowns become inline accordion sections */
+  .navbar .mega-menu .menu-item.has-dropdown .dropdown { position: static !important; left: auto !important; transform: none !important; width: auto !important; opacity: 1 !important; visibility: visible !important; display: none; box-shadow: none !important; background: transparent !important; padding: 4px 0 14px !important; border-radius: 0 !important; }
+  .navbar .mega-menu .menu-item.anw-open .dropdown { display: block; }
+  .navbar .mega-menu .dropdown-grid { grid-template-columns: 1fr !important; gap: 0 !important; }
+  .navbar .mega-menu .dropdown-column { padding: 0 !important; }
+  .navbar .mega-menu .dropdown-column a { color: rgba(255, 255, 255, 0.85) !important; padding: 9px 0 !important; font-size: 15px; }
+  .navbar .mega-menu .dropdown-column a:hover { color: #fff !important; margin-left: 0 !important; }
+  .navbar .mega-menu .dropdown-column .dropdown-heading { color: #fff !important; border-bottom-color: rgba(255, 255, 255, 0.15) !important; margin-top: 16px; font-size: 16px !important; }
+  .navbar .mega-menu .dropdown-column .description,
+  .navbar .mega-menu .dropdown-column .description_title { display: none !important; }
+  .navbar .mega-menu .dropdown-column.image-column { display: none !important; }
+  .navbar .mega-menu .dropdown-column .subCategory-title { margin-left: 0 !important; }
+  .navbar .mega-menu .dropdown-column .left-pad { margin-left: 6px !important; }
+
+  /* replace the desktop arrow with a +/- accordion indicator */
+  .navbar .mega-menu .menu-item.has-dropdown > a::after { content: '+' !important; position: static !important; float: right; border: none !important; opacity: 1 !important; transform: none !important; transition: none !important; color: #fb3c64; font-weight: bold; font-size: 18px; line-height: 1; pointer-events: none; }
+  .navbar .mega-menu .menu-item.anw-open > a::after { content: '\\2212' !important; }
+}
 `;
 
   var styleEl = document.createElement('style');
@@ -211,7 +279,7 @@
               <div class="dropdown-heading noDeco">Service Plans</div>
               <p class="description_title"></p>
               <a href="/professional-services/service-plans/content-pro"><i class="fas fa-box"></i> Content PRO</a>
-              <p class="description">Designed for brands that need help consistently fueling their content strategy and calendar with optimized press releases, blogs, and more…</p>
+              <p class="description">Designed for brands that need help consistently fueling their content strategy and calendar with optimized press releases, blogs, and more&hellip;</p>
               <a href="/professional-services/service-plans/content-pro#media"><i class="fas fa-cogs"></i> Media PRO</a>
               <p class="description">Tailored for brands with a solid content strategy seeking support for effectively reaching and engaging the media.</p>
               <a href="/professional-services/service-plans/content-pro#total"><i class="fas fa-cogs"></i> Total PRO</a>
@@ -311,10 +379,22 @@
         </div>
       </li>
       <li class="menu-item">
-        <a href="/professional-education-program">🎓 EDU program</a>
+        <a href="/professional-education-program">&#127891; EDU program</a>
+      </li>
+      <li class="menu-item anw-mobile-extra">
+        <a href="/submit-a-press-release">Submit a Press Release <i class="fas fa-paper-plane"></i></a>
+      </li>
+      <li class="menu-item anw-mobile-extra">
+        <a href="https://app.accessnewswire.com/login" target="_blank">Login <i class="fas fa-sign-in-alt"></i></a>
+      </li>
+      <li class="menu-item anw-mobile-extra">
+        <a href="/contact-us">Contact Us <i class="fas fa-envelope"></i></a>
       </li>
     </ul>
   </div>
+  <button class="anw-hamburger" aria-label="Open menu" aria-expanded="false" type="button">
+    <span></span><span></span><span></span>
+  </button>
   <div class="press-btn">
     <a href="/submit-a-press-release">Submit a Press Release <i class="fas fa-paper-plane"></i></a>
   </div>
@@ -348,40 +428,85 @@
     } else {
       document.addEventListener('DOMContentLoaded', function () {
         document.body.insertBefore(wrapper, document.body.firstChild);
-        attachHoverHandlers();
+        initMenu();
       });
       return;
     }
   }
 
-  // ---- 5. Attach the dropdown hover behaviour ----
-  function attachHoverHandlers() {
+  // ---- 5. Behaviour: dropdown hover, hamburger, accordion, scroll state ----
+  var MOBILE_BREAKPOINT = 1100;
+
+  function isMobile() {
+    return window.innerWidth <= MOBILE_BREAKPOINT;
+  }
+
+  function initMenu() {
     var menuItems = wrapper.querySelectorAll('.menu-item');
     var megaMenu = wrapper.querySelector('.mega-menu');
+    var hamburger = wrapper.querySelector('.anw-hamburger');
     if (!megaMenu) return;
 
+    // -- desktop hover dropdowns --
     menuItems.forEach(function (item) {
       var timeout;
       item.addEventListener('mouseenter', function () {
+        if (isMobile()) return;
         clearTimeout(timeout);
         item.classList.add('hover');
       });
       item.addEventListener('mouseleave', function () {
+        if (isMobile()) return;
         timeout = setTimeout(function () {
           item.classList.remove('hover');
         }, 0);
       });
     });
 
-    megaMenu.addEventListener('mouseenter', function () {
-      var activeItem = wrapper.querySelector('.menu-item.hover');
-      if (activeItem) activeItem.classList.add('hover');
+    // -- mobile: hamburger open/close --
+    function setMobileOpen(open) {
+      wrapper.classList.toggle('anw-mobile-open', open);
+      if (hamburger) hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      // lock page scroll while the panel is open
+      document.documentElement.style.overflow = open ? 'hidden' : '';
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+
+    if (hamburger) {
+      hamburger.addEventListener('click', function () {
+        setMobileOpen(!wrapper.classList.contains('anw-mobile-open'));
+      });
+    }
+
+    // -- mobile: accordion toggles on items that have dropdowns --
+    wrapper.querySelectorAll('.menu-item.has-dropdown > a').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        if (!isMobile()) return;
+        e.preventDefault(); // first tap opens the section, never navigates
+        var item = link.parentNode;
+        var wasOpen = item.classList.contains('anw-open');
+        // close siblings for a tidy single-open accordion
+        wrapper.querySelectorAll('.menu-item.anw-open').forEach(function (other) {
+          other.classList.remove('anw-open');
+        });
+        if (!wasOpen) item.classList.add('anw-open');
+      });
     });
-    megaMenu.addEventListener('mouseleave', function () {
-      var activeItem = wrapper.querySelector('.menu-item.hover');
-      if (activeItem) activeItem.classList.remove('hover');
+
+    // -- if the window is resized back to desktop, clean up mobile state --
+    window.addEventListener('resize', function () {
+      if (!isMobile() && wrapper.classList.contains('anw-mobile-open')) {
+        setMobileOpen(false);
+      }
     });
+
+    // -- scrolled state: frosted background + smaller logo --
+    function onScrollState() {
+      wrapper.classList.toggle('anw-scrolled', (window.scrollY || window.pageYOffset || 0) > 10);
+    }
+    window.addEventListener('scroll', onScrollState, { passive: true });
+    onScrollState();
   }
 
-  attachHoverHandlers();
+  initMenu();
 })();
