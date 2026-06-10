@@ -49,7 +49,9 @@
 /* ---- dropdown arrow: a real element glued to the dropdown's top edge.
        JS sets its horizontal position to sit under the hovered link.
        It fades in/out together with the dropdown automatically. ---- */
-.navbar .mega-menu .dropdown .anw-dd-arrow { position: absolute; top: -10px; left: 50%; margin-left: -10px; width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 10px solid #fff; pointer-events: none; }
+.navbar .mega-menu .dropdown .anw-dd-arrow { position: absolute; top: -10px; left: 50%; margin-left: -10px; width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 10px solid #fff; pointer-events: none; opacity: 0; transform: translateY(10px); }
+.navbar .mega-menu .menu-item.hover .dropdown .anw-dd-arrow { animation: arrow-up 0.8s ease forwards; }
+@keyframes arrow-up { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
 .navbar .mega-menu .dropdown-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
 .navbar .mega-menu .dropdown-column { width: 100%; padding: 0 5px; display: flex; flex-direction: column; }
