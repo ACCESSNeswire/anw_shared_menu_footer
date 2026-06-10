@@ -150,13 +150,19 @@
   .mega-menu.anw-panel-open .menu-item.anw-open .dropdown { display: block; }
   .mega-menu.anw-panel-open .dropdown-grid { grid-template-columns: 1fr !important; gap: 0 !important; }
   .mega-menu.anw-panel-open .dropdown-column { padding: 0 !important; }
-  .mega-menu.anw-panel-open .dropdown-column a { color: rgba(255, 255, 255, 0.85) !important; padding: 9px 0 !important; font-size: 15px; }
+  .mega-menu.anw-panel-open .dropdown-column a { color: rgba(255, 255, 255, 0.85) !important; padding: 9px 0 9px 14px !important; font-size: 15px; }
   .mega-menu.anw-panel-open .dropdown-column a:hover { color: #fff !important; margin-left: 0 !important; }
-  .mega-menu.anw-panel-open .dropdown-column .dropdown-heading { color: #fff !important; border-bottom-color: rgba(255, 255, 255, 0.15) !important; margin-top: 16px; font-size: 16px !important; }
+  /* section headings (e.g. Service Plans / Platform Add-ons): pink,
+     uppercase, underlined in pink — unmistakably a divider */
+  .mega-menu.anw-panel-open .dropdown-column .dropdown-heading { color: #fb3c64 !important; border-bottom: 1px solid rgba(251, 60, 100, 0.4) !important; margin: 22px 0 6px !important; padding-bottom: 6px !important; font-size: 13px !important; font-weight: 700 !important; text-transform: uppercase; letter-spacing: 0.08em; }
   .mega-menu.anw-panel-open .dropdown-column .description,
   .mega-menu.anw-panel-open .dropdown-column .description_title { display: none !important; }
   .mega-menu.anw-panel-open .dropdown-column.image-column { display: none !important; }
-  .mega-menu.anw-panel-open .dropdown-column .subCategory-title { margin-left: 0 !important; }
+  /* sub-category titles (Public Relations / Investor Relations under
+     Resources): the desktop purple is invisible on navy — restyle as
+     soft white uppercase labels */
+  .mega-menu.anw-panel-open .dropdown-column .subCategory-title { margin: 14px 0 2px !important; font-size: 12px !important; text-transform: uppercase; letter-spacing: 0.08em; }
+  .mega-menu.anw-panel-open .dropdown-column .blog-color { color: rgba(255, 255, 255, 0.6) !important; }
   .mega-menu.anw-panel-open .dropdown-column .left-pad { margin-left: 6px !important; }
 
   /* +/- accordion indicator */
@@ -507,6 +513,10 @@
     function openPanel() {
       document.body.appendChild(megaMenu);
       megaMenu.classList.add('anw-panel-open');
+      // inline-style kill: no stylesheet anywhere can resurrect the arrows
+      megaMenu.querySelectorAll('.anw-dd-arrow').forEach(function (a) {
+        a.style.display = 'none';
+      });
       if (hamburger) hamburger.setAttribute('aria-expanded', 'true');
       document.documentElement.style.overflow = 'hidden';
       document.body.style.overflow = 'hidden';
@@ -517,6 +527,10 @@
       // collapse any open accordion sections
       megaMenu.querySelectorAll('.menu-item.anw-open').forEach(function (item) {
         item.classList.remove('anw-open');
+      });
+      // restore arrows for desktop use
+      megaMenu.querySelectorAll('.anw-dd-arrow').forEach(function (a) {
+        a.style.display = '';
       });
       // put the panel back where it belongs in the navbar
       if (megaNext && megaNext.parentNode === megaHome) {
