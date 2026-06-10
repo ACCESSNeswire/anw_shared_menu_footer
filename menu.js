@@ -49,6 +49,11 @@
 /* ---- dropdown arrow: a real element glued to the dropdown's top edge.
        JS sets its horizontal position to sit under the hovered link.
        It fades in/out together with the dropdown automatically. ---- */
+/* kill any legacy ::after arrow that may survive in old code copies or
+   site-wide custom CSS — only the .anw-dd-arrow element may render */
+.navbar .mega-menu .menu-item.has-dropdown > a::after,
+.navbar .mega-menu .menu-item.has-dropdown > a:hover::after,
+.navbar .mega-menu .menu-item.has-dropdown.hover > a::after { content: none !important; display: none !important; animation: none !important; border: none !important; }
 .navbar .mega-menu .dropdown .anw-dd-arrow { position: absolute; top: -10px; left: 50%; margin-left: -10px; width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 10px solid #fff; pointer-events: none; opacity: 0; transform: translateY(10px); }
 .navbar .mega-menu .menu-item.hover .dropdown .anw-dd-arrow { animation: arrow-up 0.8s ease forwards; }
 @keyframes arrow-up { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
