@@ -133,8 +133,8 @@
   .mega-menu.anw-panel-open { display: block; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #000850; z-index: 2147483000; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 70px 22px 50px; font-family: 'Montserrat', sans-serif !important; }
   .mega-menu.anw-panel-open .anw-panel-close { display: block; }
 
-  /* the desktop arrow element is irrelevant in the accordion */
-  .mega-menu.anw-panel-open .anw-dd-arrow { display: none !important; }
+  /* the desktop arrow never renders on mobile, period */
+  .anw-dd-arrow { display: none !important; }
 
   /* stacked list */
   .mega-menu.anw-panel-open .menu { flex-direction: column; gap: 0; }
@@ -460,12 +460,19 @@
       dd.appendChild(arrow);
     });
 
-    // Align the arrow horizontally under the hovered link, using real
-    // measured positions — immune to per-page navbar size differences.
+    // Align the arrow horizontally under the hovered link, and open the
+    // dropdown just below the NAVBAR's real bottom edge (not the link's),
+    // so the vertical position is identical on every page template.
     function alignArrow(item) {
       var link = item.querySelector(':scope > a') || item.firstElementChild;
       var dd = item.querySelector('.dropdown');
       if (!link || !dd) return;
+      var navbar = wrapper.querySelector('.navbar');
+      if (navbar) {
+        var navRect = navbar.getBoundingClientRect();
+        var itemRect = item.getBoundingClientRect();
+        dd.style.top = Math.round(navRect.bottom - itemRect.top) + 'px';
+      }
       var arrow = dd.querySelector('.anw-dd-arrow');
       if (!arrow) return;
       var linkRect = link.getBoundingClientRect();
@@ -490,7 +497,7 @@
         if (isMobile()) return;
         timeout = setTimeout(function () {
           item.classList.remove('hover');
-        }, 0);
+        }, 250); // grace period so the cursor can cross the gap down to the dropdown
       });
     });
 
