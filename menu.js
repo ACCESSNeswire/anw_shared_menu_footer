@@ -2,13 +2,11 @@
  * ACCESS Newswire Shared Menu
  * Embed with: <script src="https://cdn.jsdelivr.net/gh/ACCESSNeswire/anw_shared_menu_footer@main/menu.js"></script>
  *
- * v3 changes:
- *  - Dropdown arrow restored: anchored to the item bottom with a z-index
- *    above the dropdown, so it shows on every page.
- *  - No sticky/scroll styling — Duda's own header handles that.
- *  - Mobile panel is moved to <body> when opened, so Duda header
- *    containers (transforms, stacking contexts) can't trap it behind
- *    the page content. Panel has its own close (X) button.
+ * v4 changes (arrow only — nothing else touched):
+ *  - The dropdown arrow is now a real element INSIDE each dropdown,
+ *    glued to the dropdown's top edge. JS aligns it horizontally under
+ *    the hovered link using measured positions, so it cannot drift or
+ *    hide regardless of how each page's header sizes the navbar.
  */
 (function () {
   'use strict';
@@ -47,6 +45,12 @@
 .dropdown-size-700 { width: 600px; }
 .dropdown-size-medium { width: 800px; }
 .dropdown-size-large { width: 900px; }
+
+/* ---- dropdown arrow: a real element glued to the dropdown's top edge.
+       JS sets its horizontal position to sit under the hovered link.
+       It fades in/out together with the dropdown automatically. ---- */
+.navbar .mega-menu .dropdown .anw-dd-arrow { position: absolute; top: -10px; left: 50%; margin-left: -10px; width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 10px solid #fff; pointer-events: none; }
+
 .navbar .mega-menu .dropdown-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
 .navbar .mega-menu .dropdown-column { width: 100%; padding: 0 5px; display: flex; flex-direction: column; }
 .navbar .mega-menu .dropdown-column h3 { font-size: 18px !important; color: #000850; margin-bottom: 10px; font-weight: bold; border-bottom: 1px solid #dedede; padding-bottom: 5px; }
@@ -63,14 +67,6 @@
 .navbar .mega-menu .dropdown-column .blog-color { color: #b303ce !important; }
 .navbar .mega-menu .dropdown-column .description-link { color: #007bff; text-decoration: underline !important; margin-left: 0px; }
 .navbar .mega-menu .dropdown-column .description-link:hover { text-decoration: underline; margin-left: 0px; }
-
-/* ---- dropdown arrow: anchored to the item bottom, painted ABOVE the
-       dropdown (z-index 1001 vs the dropdown's 1000) so it is visible
-       on every page regardless of navbar height ---- */
-.navbar .mega-menu .menu-item.has-dropdown > a::after { content: ''; position: absolute; left: 50%; bottom: 0; z-index: 1001; transform: translateX(-50%) translateY(8px); border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 10px solid #fff; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; pointer-events: none; }
-.navbar .mega-menu .menu-item.has-dropdown.hover > a::after,
-.navbar .mega-menu .menu-item.has-dropdown > a:hover::after { opacity: 1; transform: translateX(-50%) translateY(0); }
-
 .navbar .login-btn a { display: inline-flex; align-items: center; background-color: transparent; padding: 20px; color: #fff; font-size: 14px; font-family: 'Montserrat', sans-serif !important; text-decoration: none; font-weight: bold; margin-left: 1px; transition: color 0.3s ease, transform 0.3s ease; }
 .navbar .login-btn a i { margin-left: 5px; font-size: 12px; color: #fff; transition: transform 0.3s ease; }
 .navbar .login-btn a:hover { color: #000850; }
@@ -130,6 +126,9 @@
   .mega-menu.anw-panel-open { display: block; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #000850; z-index: 2147483000; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 70px 22px 50px; font-family: 'Montserrat', sans-serif !important; }
   .mega-menu.anw-panel-open .anw-panel-close { display: block; }
 
+  /* the desktop arrow element is irrelevant in the accordion */
+  .mega-menu.anw-panel-open .anw-dd-arrow { display: none !important; }
+
   /* stacked list */
   .mega-menu.anw-panel-open .menu { flex-direction: column; gap: 0; }
   .mega-menu.anw-panel-open .menu > .menu-item > a { font-size: 17px; padding: 14px 4px; border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
@@ -153,9 +152,9 @@
   .mega-menu.anw-panel-open .dropdown-column .subCategory-title { margin-left: 0 !important; }
   .mega-menu.anw-panel-open .dropdown-column .left-pad { margin-left: 6px !important; }
 
-  /* +/- accordion indicator instead of the desktop arrow */
-  .mega-menu.anw-panel-open .menu-item.has-dropdown > a::after { content: '+' !important; position: static !important; float: right; border: none !important; opacity: 1 !important; transform: none !important; transition: none !important; color: #fb3c64; font-weight: bold; font-size: 18px; line-height: 1; pointer-events: none; }
-  .mega-menu.anw-panel-open .menu-item.anw-open > a::after { content: '\\2212' !important; }
+  /* +/- accordion indicator */
+  .mega-menu.anw-panel-open .menu-item.has-dropdown > a::after { content: '+'; float: right; color: #fb3c64; font-weight: bold; font-size: 18px; line-height: 1; pointer-events: none; }
+  .mega-menu.anw-panel-open .menu-item.anw-open > a::after { content: '\\2212'; }
 }
 `;
 
@@ -430,7 +429,7 @@
     }
   }
 
-  // ---- 5. Behaviour: hover dropdowns, hamburger, accordion ----
+  // ---- 5. Behaviour: hover dropdowns + arrow alignment, hamburger, accordion ----
   var MOBILE_BREAKPOINT = 1100;
 
   function isMobile() {
@@ -447,6 +446,30 @@
     var megaHome = megaMenu.parentNode;
     var megaNext = megaMenu.nextSibling;
 
+    // -- create one arrow element inside each dropdown --
+    megaMenu.querySelectorAll('.menu-item.has-dropdown .dropdown').forEach(function (dd) {
+      var arrow = document.createElement('span');
+      arrow.className = 'anw-dd-arrow';
+      dd.appendChild(arrow);
+    });
+
+    // Align the arrow horizontally under the hovered link, using real
+    // measured positions — immune to per-page navbar size differences.
+    function alignArrow(item) {
+      var link = item.querySelector(':scope > a') || item.firstElementChild;
+      var dd = item.querySelector('.dropdown');
+      if (!link || !dd) return;
+      var arrow = dd.querySelector('.anw-dd-arrow');
+      if (!arrow) return;
+      var linkRect = link.getBoundingClientRect();
+      var ddRect = dd.getBoundingClientRect();
+      var center = linkRect.left + linkRect.width / 2 - ddRect.left;
+      // keep the arrow within the dropdown edges (account for radius)
+      center = Math.max(14, Math.min(ddRect.width - 14, center));
+      arrow.style.left = center + 'px';
+      arrow.style.marginLeft = '0px';
+    }
+
     // -- desktop hover dropdowns --
     megaMenu.querySelectorAll('.menu-item').forEach(function (item) {
       var timeout;
@@ -454,6 +477,7 @@
         if (isMobile()) return;
         clearTimeout(timeout);
         item.classList.add('hover');
+        if (item.classList.contains('has-dropdown')) alignArrow(item);
       });
       item.addEventListener('mouseleave', function () {
         if (isMobile()) return;
