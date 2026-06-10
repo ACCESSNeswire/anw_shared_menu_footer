@@ -2,13 +2,13 @@
  * ACCESS Newswire Shared Menu
  * Embed with: <script src="https://cdn.jsdelivr.net/gh/ACCESSNeswire/anw_shared_menu_footer@main/menu.js"></script>
  *
- * v2 changes:
- *  - Dropdown arrow is now anchored to the menu item itself (bottom: -10px)
- *    instead of a hardcoded top: 50px, so it works on every page regardless
- *    of navbar height/position.
- *  - Sticky navbar with a frosted "scrolled" state (background + smaller logo).
- *  - Full mobile experience (<=1100px): hamburger, fullscreen panel,
- *    accordion sections, mobile-only Submit/Login/Contact links.
+ * v3 changes:
+ *  - Dropdown arrow restored: anchored to the item bottom with a z-index
+ *    above the dropdown, so it shows on every page.
+ *  - No sticky/scroll styling — Duda's own header handles that.
+ *  - Mobile panel is moved to <body> when opened, so Duda header
+ *    containers (transforms, stacking contexts) can't trap it behind
+ *    the page content. Panel has its own close (X) button.
  */
 (function () {
   'use strict';
@@ -29,13 +29,6 @@
   // ---- 2. Inject the menu CSS into <head> ----
   var css = `
 .noDeco { cursor: default; text-decoration: none; }
-
-/* ---- sticky wrapper + scrolled state ---- */
-[data-anw-menu-wrapper] { position: sticky; top: 0; z-index: 9990; transition: background-color 0.3s ease, box-shadow 0.3s ease; }
-[data-anw-menu-wrapper].anw-scrolled { background-color: rgba(0, 8, 80, 0.55); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 2px 14px rgba(0, 0, 0, 0.18); }
-[data-anw-menu-wrapper] .logo img { transition: width 0.3s ease; }
-[data-anw-menu-wrapper].anw-scrolled .logo img { width: 95px; }
-
 .navbar { display: flex; justify-content: space-between; align-items: center; padding: 0px 10px 0px 50px !important; background-color: transparent; font-family: 'Montserrat', sans-serif !important; }
 .logo { width: 120px; height: auto; overflow: hidden; display: flex; justify-content: center; align-items: center; flex-shrink: 0; margin-right: 40px; }
 .logo img { width: 120px; height: auto; max-width: 100%; max-height: 100%; object-fit: contain; }
@@ -71,8 +64,10 @@
 .navbar .mega-menu .dropdown-column .description-link { color: #007bff; text-decoration: underline !important; margin-left: 0px; }
 .navbar .mega-menu .dropdown-column .description-link:hover { text-decoration: underline; margin-left: 0px; }
 
-/* ---- dropdown arrow: anchored to the item, works on every page ---- */
-.navbar .mega-menu .menu-item.has-dropdown > a::after { content: ''; position: absolute; left: 50%; bottom: -10px; transform: translateX(-50%) translateY(8px); border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 10px solid #fff; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; pointer-events: none; }
+/* ---- dropdown arrow: anchored to the item bottom, painted ABOVE the
+       dropdown (z-index 1001 vs the dropdown's 1000) so it is visible
+       on every page regardless of navbar height ---- */
+.navbar .mega-menu .menu-item.has-dropdown > a::after { content: ''; position: absolute; left: 50%; bottom: 0; z-index: 1001; transform: translateX(-50%) translateY(8px); border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 10px solid #fff; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; pointer-events: none; }
 .navbar .mega-menu .menu-item.has-dropdown.hover > a::after,
 .navbar .mega-menu .menu-item.has-dropdown > a:hover::after { opacity: 1; transform: translateX(-50%) translateY(0); }
 
@@ -111,13 +106,16 @@
 .contact-btn a:hover i { transform: scale(1.3); }
 .contact-btn a:focus { outline: none; color: #fff; }
 
-/* ---- hamburger (hidden on desktop) ---- */
+/* ---- hamburger + panel close (hidden on desktop) ---- */
 .anw-hamburger { display: none; background: none; border: 0; padding: 10px; cursor: pointer; }
-.anw-hamburger span { display: block; width: 24px; height: 2px; background: #fff; margin: 5px 0; transition: transform 0.3s ease, opacity 0.3s ease; }
+.anw-hamburger span { display: block; width: 24px; height: 2px; background: #fff; margin: 5px 0; }
+.anw-panel-close { display: none; position: absolute; top: 14px; right: 16px; background: none; border: 0; color: #fff; font-size: 34px; line-height: 1; cursor: pointer; padding: 8px; font-family: 'Montserrat', sans-serif !important; }
 .anw-mobile-extra { display: none; }
 
 /* ============================================================
-   MOBILE (<= 1100px): hamburger + fullscreen accordion panel
+   MOBILE (<= 1100px): hamburger + fullscreen accordion panel.
+   The panel is MOVED TO <body> by JS when opened (class
+   .anw-panel-open), so Duda header containers can't trap it.
 ============================================================ */
 @media (max-width: 1100px) {
   .navbar { padding: 8px 14px !important; }
@@ -125,42 +123,39 @@
   .navbar .press-btn, .navbar .login-btn { display: none !important; }
   .contact-btn { display: none !important; }
 
-  /* panel closed by default */
+  /* hidden in the navbar on mobile */
   .mega-menu { display: none; }
 
-  /* panel open */
-  [data-anw-menu-wrapper].anw-mobile-open .mega-menu { display: block; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #000850; z-index: 10000; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 84px 22px 50px; }
-  [data-anw-menu-wrapper].anw-mobile-open .anw-hamburger { position: fixed; top: 14px; right: 12px; z-index: 10001; }
-  [data-anw-menu-wrapper].anw-mobile-open .anw-hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  [data-anw-menu-wrapper].anw-mobile-open .anw-hamburger span:nth-child(2) { opacity: 0; }
-  [data-anw-menu-wrapper].anw-mobile-open .anw-hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  /* open state: panel lives directly under <body> */
+  .mega-menu.anw-panel-open { display: block; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #000850; z-index: 2147483000; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 70px 22px 50px; font-family: 'Montserrat', sans-serif !important; }
+  .mega-menu.anw-panel-open .anw-panel-close { display: block; }
 
   /* stacked list */
-  .menu { flex-direction: column; gap: 0; }
-  .menu > .menu-item > a { font-size: 17px; padding: 14px 4px; border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
-  .menu > .menu-item > a:hover { background-color: transparent; }
+  .mega-menu.anw-panel-open .menu { flex-direction: column; gap: 0; }
+  .mega-menu.anw-panel-open .menu > .menu-item > a { font-size: 17px; padding: 14px 4px; border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
+  .mega-menu.anw-panel-open .menu > .menu-item > a:hover { background-color: transparent; }
 
   /* mobile-only action links */
-  .anw-mobile-extra { display: block; }
-  .anw-mobile-extra > a { color: #fb3c64 !important; font-weight: bold; }
+  .mega-menu.anw-panel-open .anw-mobile-extra { display: block; }
+  .mega-menu.anw-panel-open .anw-mobile-extra > a { color: #fb3c64 !important; font-weight: bold; }
 
   /* dropdowns become inline accordion sections */
-  .navbar .mega-menu .menu-item.has-dropdown .dropdown { position: static !important; left: auto !important; transform: none !important; width: auto !important; opacity: 1 !important; visibility: visible !important; display: none; box-shadow: none !important; background: transparent !important; padding: 4px 0 14px !important; border-radius: 0 !important; }
-  .navbar .mega-menu .menu-item.anw-open .dropdown { display: block; }
-  .navbar .mega-menu .dropdown-grid { grid-template-columns: 1fr !important; gap: 0 !important; }
-  .navbar .mega-menu .dropdown-column { padding: 0 !important; }
-  .navbar .mega-menu .dropdown-column a { color: rgba(255, 255, 255, 0.85) !important; padding: 9px 0 !important; font-size: 15px; }
-  .navbar .mega-menu .dropdown-column a:hover { color: #fff !important; margin-left: 0 !important; }
-  .navbar .mega-menu .dropdown-column .dropdown-heading { color: #fff !important; border-bottom-color: rgba(255, 255, 255, 0.15) !important; margin-top: 16px; font-size: 16px !important; }
-  .navbar .mega-menu .dropdown-column .description,
-  .navbar .mega-menu .dropdown-column .description_title { display: none !important; }
-  .navbar .mega-menu .dropdown-column.image-column { display: none !important; }
-  .navbar .mega-menu .dropdown-column .subCategory-title { margin-left: 0 !important; }
-  .navbar .mega-menu .dropdown-column .left-pad { margin-left: 6px !important; }
+  .mega-menu.anw-panel-open .menu-item.has-dropdown .dropdown { position: static !important; left: auto !important; transform: none !important; width: auto !important; opacity: 1 !important; visibility: visible !important; display: none; box-shadow: none !important; background: transparent !important; padding: 4px 0 14px !important; border-radius: 0 !important; }
+  .mega-menu.anw-panel-open .menu-item.anw-open .dropdown { display: block; }
+  .mega-menu.anw-panel-open .dropdown-grid { grid-template-columns: 1fr !important; gap: 0 !important; }
+  .mega-menu.anw-panel-open .dropdown-column { padding: 0 !important; }
+  .mega-menu.anw-panel-open .dropdown-column a { color: rgba(255, 255, 255, 0.85) !important; padding: 9px 0 !important; font-size: 15px; }
+  .mega-menu.anw-panel-open .dropdown-column a:hover { color: #fff !important; margin-left: 0 !important; }
+  .mega-menu.anw-panel-open .dropdown-column .dropdown-heading { color: #fff !important; border-bottom-color: rgba(255, 255, 255, 0.15) !important; margin-top: 16px; font-size: 16px !important; }
+  .mega-menu.anw-panel-open .dropdown-column .description,
+  .mega-menu.anw-panel-open .dropdown-column .description_title { display: none !important; }
+  .mega-menu.anw-panel-open .dropdown-column.image-column { display: none !important; }
+  .mega-menu.anw-panel-open .dropdown-column .subCategory-title { margin-left: 0 !important; }
+  .mega-menu.anw-panel-open .dropdown-column .left-pad { margin-left: 6px !important; }
 
-  /* replace the desktop arrow with a +/- accordion indicator */
-  .navbar .mega-menu .menu-item.has-dropdown > a::after { content: '+' !important; position: static !important; float: right; border: none !important; opacity: 1 !important; transform: none !important; transition: none !important; color: #fb3c64; font-weight: bold; font-size: 18px; line-height: 1; pointer-events: none; }
-  .navbar .mega-menu .menu-item.anw-open > a::after { content: '\\2212' !important; }
+  /* +/- accordion indicator instead of the desktop arrow */
+  .mega-menu.anw-panel-open .menu-item.has-dropdown > a::after { content: '+' !important; position: static !important; float: right; border: none !important; opacity: 1 !important; transform: none !important; transition: none !important; color: #fb3c64; font-weight: bold; font-size: 18px; line-height: 1; pointer-events: none; }
+  .mega-menu.anw-panel-open .menu-item.anw-open > a::after { content: '\\2212' !important; }
 }
 `;
 
@@ -176,6 +171,7 @@
     <a href="/"><img src="https://irp.cdn-website.com/b585153d/dms3rep/multi/PURE_WHITE.svg" alt="Access Newswire Logo"></a>
   </div>
   <div class="mega-menu">
+    <button class="anw-panel-close" aria-label="Close menu" type="button">&times;</button>
     <ul class="menu">
       <li class="menu-item has-dropdown">
         <a class="noDeco">Products</a>
@@ -434,7 +430,7 @@
     }
   }
 
-  // ---- 5. Behaviour: dropdown hover, hamburger, accordion, scroll state ----
+  // ---- 5. Behaviour: hover dropdowns, hamburger, accordion ----
   var MOBILE_BREAKPOINT = 1100;
 
   function isMobile() {
@@ -442,13 +438,17 @@
   }
 
   function initMenu() {
-    var menuItems = wrapper.querySelectorAll('.menu-item');
     var megaMenu = wrapper.querySelector('.mega-menu');
     var hamburger = wrapper.querySelector('.anw-hamburger');
     if (!megaMenu) return;
 
+    var closeBtn = megaMenu.querySelector('.anw-panel-close');
+    // remember where the panel lives so we can put it back after closing
+    var megaHome = megaMenu.parentNode;
+    var megaNext = megaMenu.nextSibling;
+
     // -- desktop hover dropdowns --
-    menuItems.forEach(function (item) {
+    megaMenu.querySelectorAll('.menu-item').forEach(function (item) {
       var timeout;
       item.addEventListener('mouseenter', function () {
         if (isMobile()) return;
@@ -463,49 +463,61 @@
       });
     });
 
-    // -- mobile: hamburger open/close --
-    function setMobileOpen(open) {
-      wrapper.classList.toggle('anw-mobile-open', open);
-      if (hamburger) hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
-      // lock page scroll while the panel is open
-      document.documentElement.style.overflow = open ? 'hidden' : '';
-      document.body.style.overflow = open ? 'hidden' : '';
+    // -- mobile: open/close. The panel is moved to <body> while open so
+    //    no Duda header container (transform / stacking context) can
+    //    trap it behind the page content. --
+    function openPanel() {
+      document.body.appendChild(megaMenu);
+      megaMenu.classList.add('anw-panel-open');
+      if (hamburger) hamburger.setAttribute('aria-expanded', 'true');
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePanel() {
+      megaMenu.classList.remove('anw-panel-open');
+      // collapse any open accordion sections
+      megaMenu.querySelectorAll('.menu-item.anw-open').forEach(function (item) {
+        item.classList.remove('anw-open');
+      });
+      // put the panel back where it belongs in the navbar
+      if (megaNext && megaNext.parentNode === megaHome) {
+        megaHome.insertBefore(megaMenu, megaNext);
+      } else {
+        megaHome.appendChild(megaMenu);
+      }
+      if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
     }
 
     if (hamburger) {
-      hamburger.addEventListener('click', function () {
-        setMobileOpen(!wrapper.classList.contains('anw-mobile-open'));
-      });
+      hamburger.addEventListener('click', openPanel);
+    }
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closePanel);
     }
 
     // -- mobile: accordion toggles on items that have dropdowns --
-    wrapper.querySelectorAll('.menu-item.has-dropdown > a').forEach(function (link) {
+    megaMenu.querySelectorAll('.menu-item.has-dropdown > a').forEach(function (link) {
       link.addEventListener('click', function (e) {
-        if (!isMobile()) return;
-        e.preventDefault(); // first tap opens the section, never navigates
+        if (!megaMenu.classList.contains('anw-panel-open')) return;
+        e.preventDefault(); // tap toggles the section, never navigates
         var item = link.parentNode;
         var wasOpen = item.classList.contains('anw-open');
-        // close siblings for a tidy single-open accordion
-        wrapper.querySelectorAll('.menu-item.anw-open').forEach(function (other) {
+        megaMenu.querySelectorAll('.menu-item.anw-open').forEach(function (other) {
           other.classList.remove('anw-open');
         });
         if (!wasOpen) item.classList.add('anw-open');
       });
     });
 
-    // -- if the window is resized back to desktop, clean up mobile state --
+    // -- if resized back to desktop while the panel is open, restore it --
     window.addEventListener('resize', function () {
-      if (!isMobile() && wrapper.classList.contains('anw-mobile-open')) {
-        setMobileOpen(false);
+      if (!isMobile() && megaMenu.classList.contains('anw-panel-open')) {
+        closePanel();
       }
     });
-
-    // -- scrolled state: frosted background + smaller logo --
-    function onScrollState() {
-      wrapper.classList.toggle('anw-scrolled', (window.scrollY || window.pageYOffset || 0) > 10);
-    }
-    window.addEventListener('scroll', onScrollState, { passive: true });
-    onScrollState();
   }
 
   initMenu();
