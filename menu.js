@@ -50,10 +50,12 @@
        JS sets its horizontal position to sit under the hovered link.
        It fades in/out together with the dropdown automatically. ---- */
 /* kill any legacy ::after arrow that may survive in old code copies or
-   site-wide custom CSS — only the .anw-dd-arrow element may render */
-.navbar .mega-menu .menu-item.has-dropdown > a::after,
-.navbar .mega-menu .menu-item.has-dropdown > a:hover::after,
-.navbar .mega-menu .menu-item.has-dropdown.hover > a::after { content: none !important; display: none !important; animation: none !important; border: none !important; }
+   site-wide custom CSS — only the .anw-dd-arrow element may render.
+   Scoped to .mega-menu (not .navbar) so it also protects the mobile
+   panel after it is moved to <body>. */
+.mega-menu .menu-item.has-dropdown > a::after,
+.mega-menu .menu-item.has-dropdown > a:hover::after,
+.mega-menu .menu-item.has-dropdown.hover > a::after { content: none !important; display: none !important; animation: none !important; border: none !important; }
 .navbar .mega-menu .dropdown .anw-dd-arrow { position: absolute; top: -10px; left: 50%; margin-left: -10px; width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 10px solid #fff; pointer-events: none; opacity: 0; transform: translateY(10px); }
 .navbar .mega-menu .menu-item.hover .dropdown .anw-dd-arrow { animation: arrow-up 0.8s ease forwards; }
 @keyframes arrow-up { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
@@ -150,7 +152,7 @@
   .mega-menu.anw-panel-open .menu-item.anw-open .dropdown { display: block; }
   .mega-menu.anw-panel-open .dropdown-grid { grid-template-columns: 1fr !important; gap: 0 !important; }
   .mega-menu.anw-panel-open .dropdown-column { padding: 0 !important; }
-  .mega-menu.anw-panel-open .dropdown-column a { display: flex !important; align-items: flex-start; gap: 12px; color: rgba(255, 255, 255, 0.85) !important; padding: 9px 0 9px 14px !important; font-size: 15px; line-height: 1.45; }
+  .mega-menu.anw-panel-open .dropdown-column a { display: flex !important; align-items: flex-start; gap: 16px; color: rgba(255, 255, 255, 0.85) !important; padding: 9px 0 9px 14px !important; font-size: 15px; line-height: 1.45; }
   /* fixed-width icon column: every label starts at the same x position,
      and wrapped lines hang-indent instead of sliding under the icon */
   .mega-menu.anw-panel-open .dropdown-column a i { flex: 0 0 20px; width: 20px; text-align: center; margin: 3px 0 0 0 !important; font-size: 14px !important; color: #fb3c64 !important; }
@@ -168,9 +170,12 @@
   .mega-menu.anw-panel-open .dropdown-column .subCategory-title { margin: 14px 0 2px !important; font-size: 12px !important; text-transform: uppercase; letter-spacing: 0.08em; }
   .mega-menu.anw-panel-open .dropdown-column .blog-color { color: rgba(255, 255, 255, 0.6) !important; }
 
-  /* +/- accordion indicator */
-  .mega-menu.anw-panel-open .menu-item.has-dropdown > a::after { content: '+'; float: right; color: #fb3c64; font-weight: bold; font-size: 18px; line-height: 1; pointer-events: none; }
-  .mega-menu.anw-panel-open .menu-item.anw-open > a::after { content: '\\2212'; }
+  /* +/- accordion indicator — fully neutralizes any legacy arrow CSS
+     (borders / absolute positioning / animation) from outside sources */
+  .mega-menu.anw-panel-open .menu-item.has-dropdown > a::after,
+  .mega-menu.anw-panel-open .menu-item.has-dropdown > a:hover::after,
+  .mega-menu.anw-panel-open .menu-item.has-dropdown.hover > a::after { content: '+' !important; position: static !important; float: right; border: none !important; width: auto !important; height: auto !important; top: auto !important; left: auto !important; bottom: auto !important; transform: none !important; animation: none !important; opacity: 1 !important; visibility: visible !important; color: #fb3c64 !important; font-weight: bold; font-size: 18px; line-height: 1; pointer-events: none; }
+  .mega-menu.anw-panel-open .menu-item.anw-open > a::after { content: '\\2212' !important; }
 }
 `;
 
