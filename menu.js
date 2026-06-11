@@ -5,6 +5,9 @@
  * v5 changes:
  *  - Added "ACCESS Insights & Analytics" link (/insights-and-analytics)
  *    to the Products > Public Relations column, after Social Monitoring.
+ *  - Products dropdown is now a 3-column grid (PR | IR | All ACCESS +
+ *    Conference & Event Software stacked) so it no longer wraps to a
+ *    second row and gets cut off on shorter screens.
  *  - De-duplicated Products icons: Whistleblower now uses fa-user-shield
  *    (was fa-shield-alt, clashing with ACCESS Verified) and Conference &
  *    Event Software now uses fa-handshake (was fa-passport, clashing
@@ -69,6 +72,9 @@
 @keyframes arrow-up { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
 .navbar .mega-menu .dropdown-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.navbar .mega-menu .dropdown-grid.three-col { grid-template-columns: repeat(3, 1fr); }
+.navbar .mega-menu .dropdown-grid.three-col .dropdown-heading + .dropdown-heading,
+.navbar .mega-menu .dropdown-grid.three-col .stacked-section { margin-top: 25px; }
 .navbar .mega-menu .dropdown-column { width: 100%; padding: 0 5px; display: flex; flex-direction: column; }
 .navbar .mega-menu .dropdown-column h3 { font-size: 18px !important; color: #000850; margin-bottom: 10px; font-weight: bold; border-bottom: 1px solid #dedede; padding-bottom: 5px; }
 .navbar .mega-menu .dropdown-column a { display: block; color: #000850; text-decoration: none; padding: 5px 0; font-size: 14px; }
@@ -204,7 +210,7 @@
       <li class="menu-item has-dropdown">
         <a class="noDeco">Products</a>
         <div class="dropdown dropdown-position-left-20 dropdown-size-large">
-          <div class="dropdown-grid">
+          <div class="dropdown-grid three-col">
             <div class="dropdown-column pr-column">
               <div class="dropdown-heading noDeco">Public Relations</div>
               <p class="description_title"></p>
@@ -248,9 +254,7 @@
               <p class="description_title"></p>
               <a href="/products/all-access/all-access"><i class="fas fa-passport"></i> All ACCESS</a>
               <p class="description">Streamline your PR &amp; IR needs with one platform.</p>
-            </div>
-            <div class="dropdown-column">
-              <div class="dropdown-heading noDeco">Conference &amp; Event Software</div>
+              <div class="dropdown-heading noDeco stacked-section">Conference &amp; Event Software</div>
               <p class="description_title"></p>
               <a href="/products/conference-and-event-software/conference-and-event-software"><i class="fas fa-handshake"></i> Conference &amp; Event Software</a>
               <p class="description">Easily schedule and manage your investor meetings with our comprehensive and easy to use software.</p>
