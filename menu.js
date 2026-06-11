@@ -236,7 +236,8 @@
                   <p class="description">Discover your brand, industry, and competitor mentions.</p>
                   <a href="https://www.accessnewswire.com/social-monitoring"><i class="fas fa-satellite-dish"></i> Social Monitoring</a>
                   <p class="description">Now you can track every mention, every conversation, and every shift in sentiment — all from the platform you're already using.</p>
-                 
+                  <a href="/insights-and-analytics"><i class="fas fa-chart-pie"></i> ACCESS Insights &amp; Analytics</a>
+                  <p class="description">Turn your PR data into actionable intelligence with comprehensive reporting and analytics on every campaign.</p>
                   <a href="https://www.accessnewswire.com/ACCESS-Verified"><i class="fas fa-shield-alt"></i> ACCESS Verified</a>
                   <p class="description">Catch issues before our editors do. ACCESS Verified gives you a real-time first pass on your press release so you can submit with confidence — every time.</p>
                 </div>
