@@ -6,8 +6,11 @@
  *  - Added "ACCESS Insights & Analytics" link (/insights-and-analytics)
  *    to the Products > Public Relations column, after Social Monitoring.
  *  - Products dropdown is now a 3-column grid (PR | IR | All ACCESS +
- *    Conference & Event Software stacked) so it no longer wraps to a
- *    second row and gets cut off on shorter screens.
+ *    Conference & Event Software stacked) at a wider size
+ *    (min(1150px, 100vw - 30px)) so columns keep their original text
+ *    width. JS clamps the dropdown horizontally so it never leaves the
+ *    viewport, and a height guard caps any dropdown at the viewport
+ *    bottom with internal scrolling — no resolution can cut it off.
  *  - De-duplicated Products icons: Whistleblower now uses fa-user-shield
  *    (was fa-shield-alt, clashing with ACCESS Verified) and Conference &
  *    Event Software now uses fa-handshake (was fa-passport, clashing
@@ -56,6 +59,7 @@
 .dropdown-size-700 { width: 600px; }
 .dropdown-size-medium { width: 800px; }
 .dropdown-size-large { width: 900px; }
+.dropdown-size-xl { width: min(1150px, calc(100vw - 30px)); }
 
 /* ---- dropdown arrow: a real element glued to the dropdown's top edge.
        JS sets its horizontal position to sit under the hovered link.
@@ -72,7 +76,7 @@
 @keyframes arrow-up { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
 .navbar .mega-menu .dropdown-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-.navbar .mega-menu .dropdown-grid.three-col { grid-template-columns: repeat(3, 1fr); }
+.navbar .mega-menu .dropdown-grid.three-col { grid-template-columns: repeat(3, 1fr); gap: 25px; }
 .navbar .mega-menu .dropdown-grid.three-col .dropdown-heading + .dropdown-heading,
 .navbar .mega-menu .dropdown-grid.three-col .stacked-section { margin-top: 25px; }
 .navbar .mega-menu .dropdown-column { width: 100%; padding: 0 5px; display: flex; flex-direction: column; }
@@ -209,7 +213,7 @@
     <ul class="menu">
       <li class="menu-item has-dropdown">
         <a class="noDeco">Products</a>
-        <div class="dropdown dropdown-position-left-20 dropdown-size-large">
+        <div class="dropdown dropdown-position-left-20 dropdown-size-xl">
           <div class="dropdown-grid three-col">
             <div class="dropdown-column pr-column">
               <div class="dropdown-heading noDeco">Public Relations</div>
@@ -500,7 +504,31 @@
         var navRect = navbar.getBoundingClientRect();
         var itemRect = item.getBoundingClientRect();
         dd.style.top = Math.round(navRect.bottom - itemRect.top) + 'px';
+        // HEIGHT GUARD: the dropdown may never extend past the viewport
+        // bottom. If the content doesn't fit on this screen, cap it at
+        // the available height and scroll internally instead of being
+        // cut off. (The arrow gets clipped in that mode — cosmetic and
+        // only on screens where the alternative is hidden menu items.)
+        var avail = Math.round(window.innerHeight - navRect.bottom - 24);
+        dd.style.maxHeight = '';
+        dd.style.overflowY = '';
+        if (dd.scrollHeight > avail) {
+          dd.style.maxHeight = avail + 'px';
+          dd.style.overflowY = 'auto';
+        }
       }
+      // HORIZONTAL CLAMP: wide dropdowns shift sideways to stay inside
+      // the viewport instead of bleeding off the left/right edge.
+      dd.style.marginLeft = '0px';
+      var probe = dd.getBoundingClientRect();
+      var vw = document.documentElement.clientWidth;
+      var shift = 0;
+      if (probe.left < 10) {
+        shift = 10 - probe.left;
+      } else if (probe.right > vw - 10) {
+        shift = (vw - 10) - probe.right;
+      }
+      if (shift) dd.style.marginLeft = Math.round(shift) + 'px';
       var arrow = dd.querySelector('.anw-dd-arrow');
       if (!arrow) return;
       var linkRect = link.getBoundingClientRect();
@@ -535,6 +563,13 @@
     function openPanel() {
       document.body.appendChild(megaMenu);
       megaMenu.classList.add('anw-panel-open');
+      // clear desktop inline styles so they can't constrain the accordion
+      megaMenu.querySelectorAll('.menu-item.has-dropdown .dropdown').forEach(function (dd) {
+        dd.style.maxHeight = '';
+        dd.style.overflowY = '';
+        dd.style.marginLeft = '';
+        dd.style.top = '';
+      });
       // inline-style kill: no stylesheet anywhere can resurrect the arrows
       megaMenu.querySelectorAll('.anw-dd-arrow').forEach(function (a) {
         a.style.display = 'none';
