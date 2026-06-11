@@ -5,13 +5,15 @@
  * v5 changes:
  *  - Added "ACCESS Insights & Analytics" link (/insights-and-analytics)
  *    to the Products > Public Relations column, after Social Monitoring.
- *  - Products dropdown redesigned as a full-width mega menu: Public
- *    Relations items flow in two sub-columns under one heading, then
- *    Investor Relations, then All ACCESS + Conference & Event Software
- *    stacked. Width is set by JS in measured pixels
- *    (min(1300, viewport - 30)) because CSS viewport units don't
- *    resolve correctly inside Duda's page containers. JS also clamps
- *    the dropdown horizontally so it never leaves the viewport.
+ *  - Products dropdown redesigned as a balanced full-width mega menu:
+ *    Public Relations AND Investor Relations each flow in two
+ *    sub-columns under their headings (grid 2fr 2fr 1fr), with
+ *    All ACCESS + Conference & Event Software stacked in the last
+ *    column — every section ends at roughly the same height. Width is
+ *    set by JS in measured pixels (min(1600, viewport - 30)) because
+ *    CSS viewport units don't resolve correctly inside Duda's page
+ *    containers. JS also clamps the dropdown horizontally so it never
+ *    leaves the viewport.
  *  - De-duplicated Products icons: Whistleblower now uses fa-user-shield
  *    (was fa-shield-alt, clashing with ACCESS Verified) and Conference &
  *    Event Software now uses fa-handshake (was fa-passport, clashing
@@ -77,9 +79,9 @@
 @keyframes arrow-up { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
 .navbar .mega-menu .dropdown-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-.navbar .mega-menu .dropdown-grid.four-col { grid-template-columns: 2fr 1fr 1fr; gap: 30px; }
-.navbar .mega-menu .pr-split { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-.navbar .mega-menu .pr-split .pr-sub { display: flex; flex-direction: column; }
+.navbar .mega-menu .dropdown-grid.four-col { grid-template-columns: 2fr 2fr 1fr; gap: 30px; }
+.navbar .mega-menu .anw-split { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+.navbar .mega-menu .anw-split > div { display: flex; flex-direction: column; }
 .navbar .mega-menu .dropdown-column .stacked-section { margin-top: 25px; }
 .navbar .mega-menu .dropdown-column { width: 100%; padding: 0 5px; display: flex; flex-direction: column; }
 .navbar .mega-menu .dropdown-column h3 { font-size: 18px !important; color: #000850; margin-bottom: 10px; font-weight: bold; border-bottom: 1px solid #dedede; padding-bottom: 5px; }
@@ -171,7 +173,7 @@
   .mega-menu.anw-panel-open .menu-item.has-dropdown .dropdown { position: static !important; left: auto !important; transform: none !important; width: auto !important; opacity: 1 !important; visibility: visible !important; display: none; box-shadow: none !important; background: transparent !important; padding: 4px 0 14px !important; border-radius: 0 !important; }
   .mega-menu.anw-panel-open .menu-item.anw-open .dropdown { display: block; }
   .mega-menu.anw-panel-open .dropdown-grid { grid-template-columns: 1fr !important; gap: 0 !important; }
-  .mega-menu.anw-panel-open .pr-split { display: block !important; }
+  .mega-menu.anw-panel-open .anw-split { display: block !important; }
   .mega-menu.anw-panel-open .dropdown-column { padding: 0 !important; }
   .mega-menu.anw-panel-open .dropdown-column a { display: flex !important; align-items: flex-start; gap: 16px; color: rgba(255, 255, 255, 0.85) !important; padding: 9px 0 9px 14px !important; font-size: 15px; line-height: 1.45; }
   /* fixed-width icon column: every label starts at the same x position,
@@ -220,8 +222,8 @@
           <div class="dropdown-grid four-col">
             <div class="dropdown-column pr-column">
               <div class="dropdown-heading noDeco">Public Relations</div>
-              <div class="pr-split">
-                <div class="pr-sub">
+              <div class="anw-split">
+                <div>
                   <a href="/products/public-relations/access-pr-platform"><i class="fas fa-bullhorn"></i> ACCESS PR Platform</a>
                   <p class="description">The first and only All-in-one subscription platform offering all of your PR Distribution and Media Outreach Tools in one single solution. <a href="/pricing/public-relations/pr-subscription" class="description-link">Monthly &amp; Annual Subscriptions.</a></p>
                   <a href="/products/public-relations/press-release-distribution"><i class="fas fa-paper-plane"></i> Press Release Distribution</a>
@@ -231,7 +233,7 @@
                   <a href="/products/public-relations/access-pr-platform#pitch"><i class="fas fa-clipboard-list"></i> Media Pitching</a>
                   <p class="description">Personalize and customize your pitch for maximum engagement.</p>
                 </div>
-                <div class="pr-sub">
+                <div>
                   <a href="/products/public-relations/media-monitoring"><i class="fas fa-search"></i> Media Monitoring</a>
                   <p class="description">Discover your brand, industry, and competitor mentions.</p>
                   <a href="https://www.accessnewswire.com/social-monitoring"><i class="fas fa-satellite-dish"></i> Social Monitoring</a>
@@ -245,21 +247,26 @@
             </div>
             <div class="dropdown-column">
               <div class="dropdown-heading">Investor Relations</div>
-              <p class="description_title"></p>
-              <a href="/products/investor-relations/access-ir-platform"><i class="fas fa-hand-holding-usd"></i> ACCESS IR Platform</a>
-              <p class="description">The first and only All-in-one subscription platform that offers you the ability to manage all of your IR communications needs from a single source. <a href="https://www.accessnewswire.com/products/investor-relations/access-ir-platform" class="description-link">Explore our IR subscriptions</a></p>
-              <a href="/products/investor-relations/ir-website"><i class="fas fa-laptop-code"></i> IR Website</a>
-              <p class="description">Explore how you can upgrade your IR Site today.</p>
-              <a href="/products/investor-relations/ada-compliance"><i class="fas fa-universal-access"></i> ADA Compliance</a>
-              <p class="description">Ensure your IR Site is accessible for your entire audience.</p>
-              <a href="/products/investor-relations/earnings-calls"><i class="fas fa-microphone-alt"></i> Earnings Calls</a>
-              <p class="description">Experience seamless calls with our dedicated team of domestic operators.</p>
-              <a href="/products/investor-relations/earnings-press-releases"><i class="fas fa-newspaper"></i> Earnings Press Releases</a>
-              <p class="description">Easily send your releases out with quick turnarounds and no extra fees.</p>
-              <a href="/products/investor-relations/investor-days"><i class="fas fa-calendar-day"></i> Investor Days</a>
-              <p class="description">Host your day knowing you've got the most experienced webcast team in the industry.</p>
-              <a href="/products/investor-relations/whistleblower"><i class="fas fa-user-shield"></i> Whistleblower</a>
-              <p class="description">Provide a secure and confidential reporting channel to protect your organization and employees.</p>
+              <div class="anw-split">
+                <div>
+                  <a href="/products/investor-relations/access-ir-platform"><i class="fas fa-hand-holding-usd"></i> ACCESS IR Platform</a>
+                  <p class="description">The first and only All-in-one subscription platform that offers you the ability to manage all of your IR communications needs from a single source. <a href="https://www.accessnewswire.com/products/investor-relations/access-ir-platform" class="description-link">Explore our IR subscriptions</a></p>
+                  <a href="/products/investor-relations/ir-website"><i class="fas fa-laptop-code"></i> IR Website</a>
+                  <p class="description">Explore how you can upgrade your IR Site today.</p>
+                  <a href="/products/investor-relations/ada-compliance"><i class="fas fa-universal-access"></i> ADA Compliance</a>
+                  <p class="description">Ensure your IR Site is accessible for your entire audience.</p>
+                  <a href="/products/investor-relations/earnings-calls"><i class="fas fa-microphone-alt"></i> Earnings Calls</a>
+                  <p class="description">Experience seamless calls with our dedicated team of domestic operators.</p>
+                </div>
+                <div>
+                  <a href="/products/investor-relations/earnings-press-releases"><i class="fas fa-newspaper"></i> Earnings Press Releases</a>
+                  <p class="description">Easily send your releases out with quick turnarounds and no extra fees.</p>
+                  <a href="/products/investor-relations/investor-days"><i class="fas fa-calendar-day"></i> Investor Days</a>
+                  <p class="description">Host your day knowing you've got the most experienced webcast team in the industry.</p>
+                  <a href="/products/investor-relations/whistleblower"><i class="fas fa-user-shield"></i> Whistleblower</a>
+                  <p class="description">Provide a secure and confidential reporting channel to protect your organization and employees.</p>
+                </div>
+              </div>
             </div>
             <div class="dropdown-column">
               <div class="dropdown-heading noDeco">All ACCESS</div>
@@ -519,7 +526,7 @@
       // and top-edge to be JS-positioned. Inline px cannot be mangled.
       if (dd.classList.contains('dropdown-size-xl')) {
         var vwForWidth = document.documentElement.clientWidth;
-        dd.style.width = Math.round(Math.min(1300, Math.max(900, vwForWidth - 30))) + 'px';
+        dd.style.width = Math.round(Math.min(1600, Math.max(900, vwForWidth - 30))) + 'px';
       }
       // HORIZONTAL CLAMP: wide dropdowns shift sideways to stay inside
       // the viewport instead of bleeding off the left/right edge.
