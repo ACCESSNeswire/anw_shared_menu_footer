@@ -2,6 +2,14 @@
  * ACCESS Newswire Shared Menu
  * Embed with: <script src="https://cdn.jsdelivr.net/gh/ACCESSNeswire/anw_shared_menu_footer@main/menu.js"></script>
  *
+ * v5 changes:
+ *  - Added "ACCESS Insights & Analytics" link (/insights-and-analytics)
+ *    to the Products > Public Relations column, after Social Monitoring.
+ *  - De-duplicated Products icons: Whistleblower now uses fa-user-shield
+ *    (was fa-shield-alt, clashing with ACCESS Verified) and Conference &
+ *    Event Software now uses fa-handshake (was fa-passport, clashing
+ *    with All ACCESS).
+ *
  * v4 changes (arrow only — nothing else touched):
  *  - The dropdown arrow is now a real element INSIDE each dropdown,
  *    glued to the dropdown's top edge. JS aligns it horizontally under
@@ -212,6 +220,8 @@
               <p class="description">Discover your brand, industry, and competitor mentions.</p>
               <a href="https://www.accessnewswire.com/social-monitoring"><i class="fas fa-satellite-dish"></i> Social Monitoring</a>
               <p class="description">Now you can track every mention, every conversation, and every shift in sentiment — all from the platform you're already using.</p>
+              <a href="/insights-and-analytics"><i class="fas fa-chart-pie"></i> ACCESS Insights &amp; Analytics</a>
+              <p class="description">Turn your PR data into actionable intelligence with comprehensive reporting and analytics on every campaign.</p>
               <a href="https://www.accessnewswire.com/ACCESS-Verified"><i class="fas fa-shield-alt"></i> ACCESS Verified</a>
               <p class="description">Catch issues before our editors do. ACCESS Verified gives you a real-time first pass on your press release so you can submit with confidence — every time.</p>
             </div>
@@ -230,7 +240,7 @@
               <p class="description">Easily send your releases out with quick turnarounds and no extra fees.</p>
               <a href="/products/investor-relations/investor-days"><i class="fas fa-calendar-day"></i> Investor Days</a>
               <p class="description">Host your day knowing you've got the most experienced webcast team in the industry.</p>
-              <a href="/products/investor-relations/whistleblower"><i class="fas fa-shield-alt"></i> Whistleblower</a>
+              <a href="/products/investor-relations/whistleblower"><i class="fas fa-user-shield"></i> Whistleblower</a>
               <p class="description">Provide a secure and confidential reporting channel to protect your organization and employees.</p>
             </div>
             <div class="dropdown-column">
@@ -242,7 +252,7 @@
             <div class="dropdown-column">
               <div class="dropdown-heading noDeco">Conference &amp; Event Software</div>
               <p class="description_title"></p>
-              <a href="/products/conference-and-event-software/conference-and-event-software"><i class="fas fa-passport"></i> Conference &amp; Event Software</a>
+              <a href="/products/conference-and-event-software/conference-and-event-software"><i class="fas fa-handshake"></i> Conference &amp; Event Software</a>
               <p class="description">Easily schedule and manage your investor meetings with our comprehensive and easy to use software.</p>
             </div>
           </div>
