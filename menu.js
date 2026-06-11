@@ -5,15 +5,14 @@
  * v5 changes:
  *  - Added "ACCESS Insights & Analytics" link (/insights-and-analytics)
  *    to the Products > Public Relations column, after Social Monitoring.
- *  - Products dropdown redesigned as a balanced full-width mega menu:
- *    Public Relations AND Investor Relations each flow in two
- *    sub-columns under their headings (grid 2fr 2fr 1fr), with
- *    All ACCESS + Conference & Event Software stacked in the last
- *    column — every section ends at roughly the same height. Width is
- *    set by JS in measured pixels (min(1600, viewport - 30)) because
- *    CSS viewport units don't resolve correctly inside Duda's page
- *    containers. JS also clamps the dropdown horizontally so it never
- *    leaves the viewport.
+ *  - Products dropdown is THREE WIDE COLUMNS side by side: all Public
+ *    Relations items in column 1, all Investor Relations items in
+ *    column 2, All ACCESS + Conference & Event Software in column 3.
+ *    Width is set by JS in measured pixels (min(1600, viewport - 30))
+ *    because CSS viewport units don't resolve correctly inside Duda's
+ *    page containers — each column gets ~480px so descriptions stay on
+ *    1-2 lines and the dropdown stays short. JS also clamps the
+ *    dropdown horizontally so it never leaves the viewport.
  *  - De-duplicated Products icons: Whistleblower now uses fa-user-shield
  *    (was fa-shield-alt, clashing with ACCESS Verified) and Conference &
  *    Event Software now uses fa-handshake (was fa-passport, clashing
@@ -79,9 +78,10 @@
 @keyframes arrow-up { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
 .navbar .mega-menu .dropdown-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-.navbar .mega-menu .dropdown-grid.four-col { grid-template-columns: 2fr 2fr 1fr; gap: 30px; }
-.navbar .mega-menu .anw-split { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-.navbar .mega-menu .anw-split > div { display: flex; flex-direction: column; }
+/* ---- Products mega menu: 3 wide columns side by side (PR | IR |
+       All ACCESS + Conference). The dropdown's JS-measured width gives
+       each column ~480px so descriptions stay on 1-2 lines. ---- */
+.navbar .mega-menu .dropdown-grid.three-col { grid-template-columns: repeat(3, 1fr); gap: 40px; }
 .navbar .mega-menu .dropdown-column .stacked-section { margin-top: 25px; }
 .navbar .mega-menu .dropdown-column { width: 100%; padding: 0 5px; display: flex; flex-direction: column; }
 .navbar .mega-menu .dropdown-column h3 { font-size: 18px !important; color: #000850; margin-bottom: 10px; font-weight: bold; border-bottom: 1px solid #dedede; padding-bottom: 5px; }
@@ -173,7 +173,6 @@
   .mega-menu.anw-panel-open .menu-item.has-dropdown .dropdown { position: static !important; left: auto !important; transform: none !important; width: auto !important; opacity: 1 !important; visibility: visible !important; display: none; box-shadow: none !important; background: transparent !important; padding: 4px 0 14px !important; border-radius: 0 !important; }
   .mega-menu.anw-panel-open .menu-item.anw-open .dropdown { display: block; }
   .mega-menu.anw-panel-open .dropdown-grid { grid-template-columns: 1fr !important; gap: 0 !important; }
-  .mega-menu.anw-panel-open .anw-split { display: block !important; }
   .mega-menu.anw-panel-open .dropdown-column { padding: 0 !important; }
   .mega-menu.anw-panel-open .dropdown-column a { display: flex !important; align-items: flex-start; gap: 16px; color: rgba(255, 255, 255, 0.85) !important; padding: 9px 0 9px 14px !important; font-size: 15px; line-height: 1.45; }
   /* fixed-width icon column: every label starts at the same x position,
@@ -219,62 +218,48 @@
       <li class="menu-item has-dropdown">
         <a class="noDeco">Products</a>
         <div class="dropdown dropdown-position-left-20 dropdown-size-xl">
-          <div class="dropdown-grid four-col">
+          <div class="dropdown-grid three-col">
             <div class="dropdown-column pr-column">
               <div class="dropdown-heading noDeco">Public Relations</div>
-              <div class="anw-split">
-                <div>
-                  <a href="/products/public-relations/access-pr-platform"><i class="fas fa-bullhorn"></i> ACCESS PR Platform</a>
-                  <p class="description">The first and only All-in-one subscription platform offering all of your PR Distribution and Media Outreach Tools in one single solution. <a href="/pricing/public-relations/pr-subscription" class="description-link">Monthly &amp; Annual Subscriptions.</a></p>
-                  <a href="/products/public-relations/press-release-distribution"><i class="fas fa-paper-plane"></i> Press Release Distribution</a>
-                  <p class="description">Explore our distribution packages today.</p>
-                  <a href="/products/public-relations/media-database"><i class="fas fa-database"></i> Media Database</a>
-                  <p class="description">Find &amp; create journalist lists with the most up to date database in the industry.</p>
-                  <a href="/products/public-relations/access-pr-platform#pitch"><i class="fas fa-clipboard-list"></i> Media Pitching</a>
-                  <p class="description">Personalize and customize your pitch for maximum engagement.</p>
-                </div>
-                <div>
-                  <a href="/products/public-relations/media-monitoring"><i class="fas fa-search"></i> Media Monitoring</a>
-                  <p class="description">Discover your brand, industry, and competitor mentions.</p>
-                  <a href="https://www.accessnewswire.com/social-monitoring"><i class="fas fa-satellite-dish"></i> Social Monitoring</a>
-                  <p class="description">Now you can track every mention, every conversation, and every shift in sentiment — all from the platform you're already using.</p>
-                  <a href="/insights-and-analytics"><i class="fas fa-chart-pie"></i> ACCESS Insights &amp; Analytics</a>
-                  <p class="description">Turn your PR data into actionable intelligence with comprehensive reporting and analytics on every campaign.</p>
-                  <a href="https://www.accessnewswire.com/ACCESS-Verified"><i class="fas fa-shield-alt"></i> ACCESS Verified</a>
-                  <p class="description">Catch issues before our editors do. ACCESS Verified gives you a real-time first pass on your press release so you can submit with confidence — every time.</p>
-                </div>
-              </div>
+              <a href="/products/public-relations/access-pr-platform"><i class="fas fa-bullhorn"></i> ACCESS PR Platform</a>
+              <p class="description">The first and only All-in-one subscription platform offering all of your PR Distribution and Media Outreach Tools in one single solution. <a href="/pricing/public-relations/pr-subscription" class="description-link">Monthly &amp; Annual Subscriptions.</a></p>
+              <a href="/products/public-relations/press-release-distribution"><i class="fas fa-paper-plane"></i> Press Release Distribution</a>
+              <p class="description">Explore our distribution packages today.</p>
+              <a href="/products/public-relations/media-database"><i class="fas fa-database"></i> Media Database</a>
+              <p class="description">Find &amp; create journalist lists with the most up to date database in the industry.</p>
+              <a href="/products/public-relations/access-pr-platform#pitch"><i class="fas fa-clipboard-list"></i> Media Pitching</a>
+              <p class="description">Personalize and customize your pitch for maximum engagement.</p>
+              <a href="/products/public-relations/media-monitoring"><i class="fas fa-search"></i> Media Monitoring</a>
+              <p class="description">Discover your brand, industry, and competitor mentions.</p>
+              <a href="https://www.accessnewswire.com/social-monitoring"><i class="fas fa-satellite-dish"></i> Social Monitoring</a>
+              <p class="description">Now you can track every mention, every conversation, and every shift in sentiment — all from the platform you're already using.</p>
+              <a href="/insights-and-analytics"><i class="fas fa-chart-pie"></i> ACCESS Insights &amp; Analytics</a>
+              <p class="description">Turn your PR data into actionable intelligence with comprehensive reporting and analytics on every campaign.</p>
+              <a href="https://www.accessnewswire.com/ACCESS-Verified"><i class="fas fa-shield-alt"></i> ACCESS Verified</a>
+              <p class="description">Catch issues before our editors do. ACCESS Verified gives you a real-time first pass on your press release so you can submit with confidence — every time.</p>
             </div>
             <div class="dropdown-column">
               <div class="dropdown-heading">Investor Relations</div>
-              <div class="anw-split">
-                <div>
-                  <a href="/products/investor-relations/access-ir-platform"><i class="fas fa-hand-holding-usd"></i> ACCESS IR Platform</a>
-                  <p class="description">The first and only All-in-one subscription platform that offers you the ability to manage all of your IR communications needs from a single source. <a href="https://www.accessnewswire.com/products/investor-relations/access-ir-platform" class="description-link">Explore our IR subscriptions</a></p>
-                  <a href="/products/investor-relations/ir-website"><i class="fas fa-laptop-code"></i> IR Website</a>
-                  <p class="description">Explore how you can upgrade your IR Site today.</p>
-                  <a href="/products/investor-relations/ada-compliance"><i class="fas fa-universal-access"></i> ADA Compliance</a>
-                  <p class="description">Ensure your IR Site is accessible for your entire audience.</p>
-                  <a href="/products/investor-relations/earnings-calls"><i class="fas fa-microphone-alt"></i> Earnings Calls</a>
-                  <p class="description">Experience seamless calls with our dedicated team of domestic operators.</p>
-                </div>
-                <div>
-                  <a href="/products/investor-relations/earnings-press-releases"><i class="fas fa-newspaper"></i> Earnings Press Releases</a>
-                  <p class="description">Easily send your releases out with quick turnarounds and no extra fees.</p>
-                  <a href="/products/investor-relations/investor-days"><i class="fas fa-calendar-day"></i> Investor Days</a>
-                  <p class="description">Host your day knowing you've got the most experienced webcast team in the industry.</p>
-                  <a href="/products/investor-relations/whistleblower"><i class="fas fa-user-shield"></i> Whistleblower</a>
-                  <p class="description">Provide a secure and confidential reporting channel to protect your organization and employees.</p>
-                </div>
-              </div>
+              <a href="/products/investor-relations/access-ir-platform"><i class="fas fa-hand-holding-usd"></i> ACCESS IR Platform</a>
+              <p class="description">The first and only All-in-one subscription platform that offers you the ability to manage all of your IR communications needs from a single source. <a href="https://www.accessnewswire.com/products/investor-relations/access-ir-platform" class="description-link">Explore our IR subscriptions</a></p>
+              <a href="/products/investor-relations/ir-website"><i class="fas fa-laptop-code"></i> IR Website</a>
+              <p class="description">Explore how you can upgrade your IR Site today.</p>
+              <a href="/products/investor-relations/ada-compliance"><i class="fas fa-universal-access"></i> ADA Compliance</a>
+              <p class="description">Ensure your IR Site is accessible for your entire audience.</p>
+              <a href="/products/investor-relations/earnings-calls"><i class="fas fa-microphone-alt"></i> Earnings Calls</a>
+              <p class="description">Experience seamless calls with our dedicated team of domestic operators.</p>
+              <a href="/products/investor-relations/earnings-press-releases"><i class="fas fa-newspaper"></i> Earnings Press Releases</a>
+              <p class="description">Easily send your releases out with quick turnarounds and no extra fees.</p>
+              <a href="/products/investor-relations/investor-days"><i class="fas fa-calendar-day"></i> Investor Days</a>
+              <p class="description">Host your day knowing you've got the most experienced webcast team in the industry.</p>
+              <a href="/products/investor-relations/whistleblower"><i class="fas fa-user-shield"></i> Whistleblower</a>
+              <p class="description">Provide a secure and confidential reporting channel to protect your organization and employees.</p>
             </div>
             <div class="dropdown-column">
               <div class="dropdown-heading noDeco">All ACCESS</div>
-              <p class="description_title"></p>
               <a href="/products/all-access/all-access"><i class="fas fa-passport"></i> All ACCESS</a>
               <p class="description">Streamline your PR &amp; IR needs with one platform.</p>
               <div class="dropdown-heading noDeco stacked-section">Conference &amp; Event Software</div>
-              <p class="description_title"></p>
               <a href="/products/conference-and-event-software/conference-and-event-software"><i class="fas fa-handshake"></i> Conference &amp; Event Software</a>
               <p class="description">Easily schedule and manage your investor meetings with our comprehensive and easy to use software.</p>
             </div>
