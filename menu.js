@@ -5,13 +5,13 @@
  * v5 changes:
  *  - Added "ACCESS Insights & Analytics" link (/insights-and-analytics)
  *    to the Products > Public Relations column, after Social Monitoring.
- *  - Products dropdown redesigned as a full-width mega menu
- *    (calc(100vw - 60px), max 1400px): Public Relations items flow in
- *    two sub-columns under one heading, then Investor Relations, then
- *    All ACCESS + Conference & Event Software stacked. Halving the PR
- *    list height makes the whole dropdown fit shorter screens with no
- *    clipping and no internal scrolling. JS clamps the dropdown
- *    horizontally so it never leaves the viewport.
+ *  - Products dropdown redesigned as a full-width mega menu: Public
+ *    Relations items flow in two sub-columns under one heading, then
+ *    Investor Relations, then All ACCESS + Conference & Event Software
+ *    stacked. Width is set by JS in measured pixels
+ *    (min(1300, viewport - 30)) because CSS viewport units don't
+ *    resolve correctly inside Duda's page containers. JS also clamps
+ *    the dropdown horizontally so it never leaves the viewport.
  *  - De-duplicated Products icons: Whistleblower now uses fa-user-shield
  *    (was fa-shield-alt, clashing with ACCESS Verified) and Conference &
  *    Event Software now uses fa-handshake (was fa-passport, clashing
@@ -60,7 +60,7 @@
 .dropdown-size-700 { width: 600px; }
 .dropdown-size-medium { width: 800px; }
 .dropdown-size-large { width: 900px; }
-.dropdown-size-xl { width: calc(100vw - 60px); max-width: 1400px; }
+.dropdown-size-xl { width: 1300px; }
 
 /* ---- dropdown arrow: a real element glued to the dropdown's top edge.
        JS sets its horizontal position to sit under the hovered link.
@@ -236,8 +236,7 @@
                   <p class="description">Discover your brand, industry, and competitor mentions.</p>
                   <a href="https://www.accessnewswire.com/social-monitoring"><i class="fas fa-satellite-dish"></i> Social Monitoring</a>
                   <p class="description">Now you can track every mention, every conversation, and every shift in sentiment — all from the platform you're already using.</p>
-                  <a href="/insights-and-analytics"><i class="fas fa-chart-pie"></i> ACCESS Insights &amp; Analytics</a>
-                  <p class="description">Turn your PR data into actionable intelligence with comprehensive reporting and analytics on every campaign.</p>
+                 
                   <a href="https://www.accessnewswire.com/ACCESS-Verified"><i class="fas fa-shield-alt"></i> ACCESS Verified</a>
                   <p class="description">Catch issues before our editors do. ACCESS Verified gives you a real-time first pass on your press release so you can submit with confidence — every time.</p>
                 </div>
@@ -513,6 +512,14 @@
         var itemRect = item.getBoundingClientRect();
         dd.style.top = Math.round(navRect.bottom - itemRect.top) + 'px';
       }
+      // WIDTH (xl dropdowns): set from measured viewport pixels in JS.
+      // CSS viewport units (100vw) do NOT resolve correctly inside this
+      // site's page containers — same Duda quirk that forced the arrow
+      // and top-edge to be JS-positioned. Inline px cannot be mangled.
+      if (dd.classList.contains('dropdown-size-xl')) {
+        var vwForWidth = document.documentElement.clientWidth;
+        dd.style.width = Math.round(Math.min(1300, Math.max(900, vwForWidth - 30))) + 'px';
+      }
       // HORIZONTAL CLAMP: wide dropdowns shift sideways to stay inside
       // the viewport instead of bleeding off the left/right edge.
       dd.style.marginLeft = '0px';
@@ -563,6 +570,7 @@
       megaMenu.querySelectorAll('.menu-item.has-dropdown .dropdown').forEach(function (dd) {
         dd.style.marginLeft = '';
         dd.style.top = '';
+        dd.style.width = '';
       });
       // inline-style kill: no stylesheet anywhere can resurrect the arrows
       megaMenu.querySelectorAll('.anw-dd-arrow').forEach(function (a) {
