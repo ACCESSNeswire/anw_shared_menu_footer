@@ -5,12 +5,13 @@
  * v5 changes:
  *  - Added "ACCESS Insights & Analytics" link (/insights-and-analytics)
  *    to the Products > Public Relations column, after Social Monitoring.
- *  - Products dropdown is now a 3-column grid (PR | IR | All ACCESS +
- *    Conference & Event Software stacked) at a wider size
- *    (min(1150px, 100vw - 30px)) so columns keep their original text
- *    width. JS clamps the dropdown horizontally so it never leaves the
- *    viewport, and a height guard caps any dropdown at the viewport
- *    bottom with internal scrolling — no resolution can cut it off.
+ *  - Products dropdown redesigned as a full-width mega menu
+ *    (calc(100vw - 60px), max 1400px): Public Relations items flow in
+ *    two sub-columns under one heading, then Investor Relations, then
+ *    All ACCESS + Conference & Event Software stacked. Halving the PR
+ *    list height makes the whole dropdown fit shorter screens with no
+ *    clipping and no internal scrolling. JS clamps the dropdown
+ *    horizontally so it never leaves the viewport.
  *  - De-duplicated Products icons: Whistleblower now uses fa-user-shield
  *    (was fa-shield-alt, clashing with ACCESS Verified) and Conference &
  *    Event Software now uses fa-handshake (was fa-passport, clashing
@@ -59,7 +60,7 @@
 .dropdown-size-700 { width: 600px; }
 .dropdown-size-medium { width: 800px; }
 .dropdown-size-large { width: 900px; }
-.dropdown-size-xl { width: min(1150px, calc(100vw - 30px)); }
+.dropdown-size-xl { width: calc(100vw - 60px); max-width: 1400px; }
 
 /* ---- dropdown arrow: a real element glued to the dropdown's top edge.
        JS sets its horizontal position to sit under the hovered link.
@@ -76,9 +77,10 @@
 @keyframes arrow-up { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
 .navbar .mega-menu .dropdown-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-.navbar .mega-menu .dropdown-grid.three-col { grid-template-columns: repeat(3, 1fr); gap: 25px; }
-.navbar .mega-menu .dropdown-grid.three-col .dropdown-heading + .dropdown-heading,
-.navbar .mega-menu .dropdown-grid.three-col .stacked-section { margin-top: 25px; }
+.navbar .mega-menu .dropdown-grid.four-col { grid-template-columns: 2fr 1fr 1fr; gap: 30px; }
+.navbar .mega-menu .pr-split { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+.navbar .mega-menu .pr-split .pr-sub { display: flex; flex-direction: column; }
+.navbar .mega-menu .dropdown-column .stacked-section { margin-top: 25px; }
 .navbar .mega-menu .dropdown-column { width: 100%; padding: 0 5px; display: flex; flex-direction: column; }
 .navbar .mega-menu .dropdown-column h3 { font-size: 18px !important; color: #000850; margin-bottom: 10px; font-weight: bold; border-bottom: 1px solid #dedede; padding-bottom: 5px; }
 .navbar .mega-menu .dropdown-column a { display: block; color: #000850; text-decoration: none; padding: 5px 0; font-size: 14px; }
@@ -169,6 +171,7 @@
   .mega-menu.anw-panel-open .menu-item.has-dropdown .dropdown { position: static !important; left: auto !important; transform: none !important; width: auto !important; opacity: 1 !important; visibility: visible !important; display: none; box-shadow: none !important; background: transparent !important; padding: 4px 0 14px !important; border-radius: 0 !important; }
   .mega-menu.anw-panel-open .menu-item.anw-open .dropdown { display: block; }
   .mega-menu.anw-panel-open .dropdown-grid { grid-template-columns: 1fr !important; gap: 0 !important; }
+  .mega-menu.anw-panel-open .pr-split { display: block !important; }
   .mega-menu.anw-panel-open .dropdown-column { padding: 0 !important; }
   .mega-menu.anw-panel-open .dropdown-column a { display: flex !important; align-items: flex-start; gap: 16px; color: rgba(255, 255, 255, 0.85) !important; padding: 9px 0 9px 14px !important; font-size: 15px; line-height: 1.45; }
   /* fixed-width icon column: every label starts at the same x position,
@@ -214,26 +217,31 @@
       <li class="menu-item has-dropdown">
         <a class="noDeco">Products</a>
         <div class="dropdown dropdown-position-left-20 dropdown-size-xl">
-          <div class="dropdown-grid three-col">
+          <div class="dropdown-grid four-col">
             <div class="dropdown-column pr-column">
               <div class="dropdown-heading noDeco">Public Relations</div>
-              <p class="description_title"></p>
-              <a href="/products/public-relations/access-pr-platform"><i class="fas fa-bullhorn"></i> ACCESS PR Platform</a>
-              <p class="description">The first and only All-in-one subscription platform offering all of your PR Distribution and Media Outreach Tools in one single solution. <a href="/pricing/public-relations/pr-subscription" class="description-link">Monthly &amp; Annual Subscriptions.</a></p>
-              <a href="/products/public-relations/press-release-distribution"><i class="fas fa-paper-plane"></i> Press Release Distribution</a>
-              <p class="description">Explore our distribution packages today.</p>
-              <a href="/products/public-relations/media-database"><i class="fas fa-database"></i> Media Database</a>
-              <p class="description">Find &amp; create journalist lists with the most up to date database in the industry.</p>
-              <a href="/products/public-relations/access-pr-platform#pitch"><i class="fas fa-clipboard-list"></i> Media Pitching</a>
-              <p class="description">Personalize and customize your pitch for maximum engagement.</p>
-              <a href="/products/public-relations/media-monitoring"><i class="fas fa-search"></i> Media Monitoring</a>
-              <p class="description">Discover your brand, industry, and competitor mentions.</p>
-              <a href="https://www.accessnewswire.com/social-monitoring"><i class="fas fa-satellite-dish"></i> Social Monitoring</a>
-              <p class="description">Now you can track every mention, every conversation, and every shift in sentiment — all from the platform you're already using.</p>
-              <a href="/insights-and-analytics"><i class="fas fa-chart-pie"></i> ACCESS Insights &amp; Analytics</a>
-              <p class="description">Turn your PR data into actionable intelligence with comprehensive reporting and analytics on every campaign.</p>
-              <a href="https://www.accessnewswire.com/ACCESS-Verified"><i class="fas fa-shield-alt"></i> ACCESS Verified</a>
-              <p class="description">Catch issues before our editors do. ACCESS Verified gives you a real-time first pass on your press release so you can submit with confidence — every time.</p>
+              <div class="pr-split">
+                <div class="pr-sub">
+                  <a href="/products/public-relations/access-pr-platform"><i class="fas fa-bullhorn"></i> ACCESS PR Platform</a>
+                  <p class="description">The first and only All-in-one subscription platform offering all of your PR Distribution and Media Outreach Tools in one single solution. <a href="/pricing/public-relations/pr-subscription" class="description-link">Monthly &amp; Annual Subscriptions.</a></p>
+                  <a href="/products/public-relations/press-release-distribution"><i class="fas fa-paper-plane"></i> Press Release Distribution</a>
+                  <p class="description">Explore our distribution packages today.</p>
+                  <a href="/products/public-relations/media-database"><i class="fas fa-database"></i> Media Database</a>
+                  <p class="description">Find &amp; create journalist lists with the most up to date database in the industry.</p>
+                  <a href="/products/public-relations/access-pr-platform#pitch"><i class="fas fa-clipboard-list"></i> Media Pitching</a>
+                  <p class="description">Personalize and customize your pitch for maximum engagement.</p>
+                </div>
+                <div class="pr-sub">
+                  <a href="/products/public-relations/media-monitoring"><i class="fas fa-search"></i> Media Monitoring</a>
+                  <p class="description">Discover your brand, industry, and competitor mentions.</p>
+                  <a href="https://www.accessnewswire.com/social-monitoring"><i class="fas fa-satellite-dish"></i> Social Monitoring</a>
+                  <p class="description">Now you can track every mention, every conversation, and every shift in sentiment — all from the platform you're already using.</p>
+                  <a href="/insights-and-analytics"><i class="fas fa-chart-pie"></i> ACCESS Insights &amp; Analytics</a>
+                  <p class="description">Turn your PR data into actionable intelligence with comprehensive reporting and analytics on every campaign.</p>
+                  <a href="https://www.accessnewswire.com/ACCESS-Verified"><i class="fas fa-shield-alt"></i> ACCESS Verified</a>
+                  <p class="description">Catch issues before our editors do. ACCESS Verified gives you a real-time first pass on your press release so you can submit with confidence — every time.</p>
+                </div>
+              </div>
             </div>
             <div class="dropdown-column">
               <div class="dropdown-heading">Investor Relations</div>
@@ -504,18 +512,6 @@
         var navRect = navbar.getBoundingClientRect();
         var itemRect = item.getBoundingClientRect();
         dd.style.top = Math.round(navRect.bottom - itemRect.top) + 'px';
-        // HEIGHT GUARD: the dropdown may never extend past the viewport
-        // bottom. If the content doesn't fit on this screen, cap it at
-        // the available height and scroll internally instead of being
-        // cut off. (The arrow gets clipped in that mode — cosmetic and
-        // only on screens where the alternative is hidden menu items.)
-        var avail = Math.round(window.innerHeight - navRect.bottom - 24);
-        dd.style.maxHeight = '';
-        dd.style.overflowY = '';
-        if (dd.scrollHeight > avail) {
-          dd.style.maxHeight = avail + 'px';
-          dd.style.overflowY = 'auto';
-        }
       }
       // HORIZONTAL CLAMP: wide dropdowns shift sideways to stay inside
       // the viewport instead of bleeding off the left/right edge.
@@ -565,8 +561,6 @@
       megaMenu.classList.add('anw-panel-open');
       // clear desktop inline styles so they can't constrain the accordion
       megaMenu.querySelectorAll('.menu-item.has-dropdown .dropdown').forEach(function (dd) {
-        dd.style.maxHeight = '';
-        dd.style.overflowY = '';
         dd.style.marginLeft = '';
         dd.style.top = '';
       });
