@@ -74,8 +74,11 @@
           <li><a href="/products/public-relations/media-pitching">Media Pitching</a></li>
           <li><a href="/products/public-relations/media-monitoring">Media Monitoring</a></li>
           <li><a href="/products/public-relations/media-and-industry-targeting">Media and Industry Targeting</a></li>
-          <li><a href="https://www.accessnewswire.com/social-monitoring">Social Monitoring</a></li>
-          <li><a href="https://www.accessnewswire.com/ACCESS-Verified">ACCESS Verified</a></li>
+          <li><a href="/products/public-relations/social-monitoring">Social Monitoring</a></li>
+          <li><a href="/products/public-relations/insights-and-analytics">Insights and Analytics</a></li>
+          <li><a href="/products/public-relations/ACCESS-Verified">ACCESS Verified</a></li>
+
+         
         </ul>
       </div>
       <div class="footer-column">
