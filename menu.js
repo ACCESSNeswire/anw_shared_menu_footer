@@ -360,7 +360,7 @@
               <p class="subCategory-title blog-color noDeco">Public Relations</p>
               <p class="description_title"></p>
               <a href="/resource/press-release-examples"><i class="fas fa-users left-pad"></i> <span class="link-label-wrap">PR Examples<span class="new-badge">New</span></span></a>
-              <a href="/download-press-release-template"><i class="fas fa-users left-pad"></i> PR Template</a>
+              <a href="/resource/press-release-templates"><i class="fas fa-users left-pad"></i> PR Template</a>
 
 
               
