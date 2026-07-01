@@ -130,7 +130,7 @@
         <p>Resources</p>
         <ul>
           <li><a href="/download-press-release-template">Press Release Templates</a></li>
-          <li><a href="/newsroom">Press Release Examples</a></li>
+          <li><a href="/resource/press-release-examples">Press Release Examples</a></li>
           <li><a href="/professional-education-program">🎓 EDU Program</a></li>
         </ul>
       </div>
