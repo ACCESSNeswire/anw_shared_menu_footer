@@ -23,6 +23,12 @@
  *    glued to the dropdown's top edge. JS aligns it horizontally under
  *    the hovered link using measured positions, so it cannot drift or
  *    hide regardless of how each page's header sizes the navbar.
+ *
+ * v5.1 changes:
+ *  - Added a small "New" badge next to "PR Examples" under
+ *    Resources > Templates, Tips & Tools. Label + badge are wrapped in
+ *    .link-label-wrap so the mobile accordion's flex/gap layout keeps
+ *    them glued together instead of splitting them apart.
  */
 (function () {
   'use strict';
@@ -98,6 +104,7 @@
 .navbar .mega-menu .dropdown-column .blog-color { color: #b303ce !important; }
 .navbar .mega-menu .dropdown-column .description-link { color: #007bff; text-decoration: underline !important; margin-left: 0px; }
 .navbar .mega-menu .dropdown-column .description-link:hover { text-decoration: underline; margin-left: 0px; }
+.navbar .mega-menu .dropdown-column .new-badge { display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 0.3px; text-transform: uppercase; color: #fff; background-color: #fb3c64; padding: 1px 6px; border-radius: 10px; margin-left: 6px; vertical-align: middle; line-height: 1.6; }
 .navbar .login-btn a { display: inline-flex; align-items: center; background-color: transparent; padding: 20px; color: #fff; font-size: 14px; font-family: 'Montserrat', sans-serif !important; text-decoration: none; font-weight: bold; margin-left: 1px; transition: color 0.3s ease, transform 0.3s ease; }
 .navbar .login-btn a i { margin-left: 5px; font-size: 12px; color: #fff; transition: transform 0.3s ease; }
 .navbar .login-btn a:hover { color: #000850; }
@@ -352,7 +359,11 @@
               <div class="dropdown-heading noDeco">Templates, Tips &amp; Tools</div>
               <p class="subCategory-title blog-color noDeco">Public Relations</p>
               <p class="description_title"></p>
+              <a href="/resource/press-release-examples"><i class="fas fa-users left-pad"></i> <span class="link-label-wrap">PR Examples<span class="new-badge">New</span></span></a>
               <a href="/download-press-release-template"><i class="fas fa-users left-pad"></i> PR Template</a>
+
+
+              
               <a href="/download/media-pitch-template"><i class="fas fa-users left-pad"></i> Media Pitch Template</a>
               <a href="/download-press-release-ai"><i class="fas fa-users left-pad"></i> Professional's Guide to AI</a>
               <a href="/download-crisis-communications"><i class="fas fa-users left-pad"></i> Crisis Communications Tip Sheet</a>
