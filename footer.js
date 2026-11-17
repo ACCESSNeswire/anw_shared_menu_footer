@@ -119,7 +119,7 @@
         <ul>
           <li><a href="/blog-topics/public-relations/press-releases-tips">Press Release Topics</a></li>
           <li><a href="/blog-topics/public-relations/media-outreach-and-engagement-optimization">Media Outreach &amp; Engagement Optimization</a></li>
-          <li><a href="/blog-topics/public-relations/competitor-comparisons">Competitor Comparisons</a></li>
+          <li><a href="/pr-newswire-business-wire-alternatives">Competitor Comparisons</a></li>
           <li><a href="/blog-topics/investor-relations/ir-website-best-practices">IR Websites Best Practices</a></li>
           <li><a href="/blog-topics/investor-relations/earnings-call-checklists-and-preparation">Earnings Call, Checklists &amp; Preparation</a></li>
           <li><a href="/blog-topics/investor-relations/earnings-press-release-tips">Earnings Press Release Tips</a></li>
