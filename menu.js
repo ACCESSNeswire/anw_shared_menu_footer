@@ -348,7 +348,7 @@
               <p class="subCategory-title blog-color noDeco">Public Relations</p>
               <a href="/blog-topics/public-relations/press-releases-tips"><i class="fas fa-newspaper left-pad"></i> Press Release Tips</a>
               <a href="/blog-topics/public-relations/media-outreach-and-engagement-optimization"><i class="fas fa-bullhorn left-pad"></i> Media Outreach &amp; Engagement Optimization</a>
-              <a href="/blog-topics/public-relations/competitor-comparisons"><i class="fas fa-share-alt left-pad"></i> Competitor Comparisons</a>
+              <a href="/pr-newswire-business-wire-alternatives"><i class="fas fa-share-alt left-pad"></i> Competitor Comparisons</a>
               <p class="subCategory-title blog-color noDeco">Investor Relations</p>
               <a href="/blog-topics/investor-relations/ir-website-best-practices"><i class="fas fa-laptop-code left-pad"></i> IR Website Best Practices</a>
               <a href="/blog-topics/investor-relations/earnings-call-checklists-and-preparation"><i class="fas fa-phone-alt left-pad"></i> Earnings Call Checklists and Preparation</a>
